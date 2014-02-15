@@ -1,0 +1,379 @@
+fileFormatVersion: 2
+guid: 231a0ef058244431587a1f075aedde65
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: be_L_eye1
+    100004: be_R_eye
+    100006: bn_cup
+    100008: bn_had
+    100010: bn_l_TopEyeTip
+    100012: bn_R_BotamEyeTip
+    100014: bn_R_TopEyeTip
+    100016: go_L_eye
+    100018: go_muffin
+    100020: go_R_eye
+    100022: joint2
+    100024: joint8
+    100026: joint9
+    100028: RootBone
+    400000: //RootNode
+    400002: be_L_eye1
+    400004: be_R_eye
+    400006: bn_cup
+    400008: bn_had
+    400010: bn_l_TopEyeTip
+    400012: bn_R_BotamEyeTip
+    400014: bn_R_TopEyeTip
+    400016: go_L_eye
+    400018: go_muffin
+    400020: go_R_eye
+    400022: joint2
+    400024: joint8
+    400026: joint9
+    400028: RootBone
+    4300000: go_R_eye
+    4300002: go_L_eye
+    4300004: go_muffin
+    7400000: Take 001
+    7400002: Walk
+    7400004: Idle
+    7400006: DropTrap
+    7400008: Die
+    9500000: //RootNode
+    13700000: go_L_eye
+    13700002: go_muffin
+    13700004: go_R_eye
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 150
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: go_L_eye
+        weight: 1
+      - path: go_R_eye
+        weight: 1
+      - path: RootBone
+        weight: 1
+      - path: RootBone/bn_cup
+        weight: 1
+      - path: RootBone/bn_cup/bn_had
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
+        weight: 1
+      - path: RootBone/bn_cup/go_muffin
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Walk
+      takeName: Take 001
+      firstFrame: 55
+      lastFrame: 71
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: go_L_eye
+        weight: 1
+      - path: go_R_eye
+        weight: 1
+      - path: RootBone
+        weight: 1
+      - path: RootBone/bn_cup
+        weight: 1
+      - path: RootBone/bn_cup/bn_had
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
+        weight: 1
+      - path: RootBone/bn_cup/go_muffin
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 54
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: go_L_eye
+        weight: 1
+      - path: go_R_eye
+        weight: 1
+      - path: RootBone
+        weight: 1
+      - path: RootBone/bn_cup
+        weight: 1
+      - path: RootBone/bn_cup/bn_had
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
+        weight: 1
+      - path: RootBone/bn_cup/go_muffin
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: DropTrap
+      takeName: Take 001
+      firstFrame: 72
+      lastFrame: 99
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: go_L_eye
+        weight: 1
+      - path: go_R_eye
+        weight: 1
+      - path: RootBone
+        weight: 1
+      - path: RootBone/bn_cup
+        weight: 1
+      - path: RootBone/bn_cup/bn_had
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
+        weight: 1
+      - path: RootBone/bn_cup/go_muffin
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Die
+      takeName: Take 001
+      firstFrame: 100
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: go_L_eye
+        weight: 1
+      - path: go_R_eye
+        weight: 1
+      - path: RootBone
+        weight: 1
+      - path: RootBone/bn_cup
+        weight: 1
+      - path: RootBone/bn_cup/bn_had
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
+        weight: 1
+      - path: RootBone/bn_cup/go_muffin
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .300000012
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  userData: 
