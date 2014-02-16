@@ -11,6 +11,7 @@ public class CharacterControl : MonoBehaviour
 		Idle,
 		Walk,
 		Trap,
+		Powerup,
 		Die
 	}
 	#endregion
@@ -27,8 +28,6 @@ public class CharacterControl : MonoBehaviour
 
 	private bool						_isResumed;
 	private bool						_requestForDeathAnimation;
-
-	private PowerupManager.PowerupType	_characterPowerupState;
 	#endregion
 
 	#region Public Variables
@@ -106,7 +105,11 @@ public class CharacterControl : MonoBehaviour
 
 				if(Input.GetKeyDown(KeyCode.E))
 				{
-					newCharacterState = CharacterState.Trap;
+					DropTrap();
+				}
+				if(Input.GetKeyDown(KeyCode.Q))
+				{
+					ApplyPowerup();
 				}
 			}
 
@@ -122,9 +125,9 @@ public class CharacterControl : MonoBehaviour
 				case CharacterState.Walk:
 					WalkCharacter();
 					break;
-				case CharacterState.Trap:
-					DropTrap();
-					break;
+//				case CharacterState.Trap:
+//					DropTrap();
+//					break;
 				}
 
 				StartCoroutine("AnimateCharacter");
@@ -178,6 +181,24 @@ public class CharacterControl : MonoBehaviour
 		rigidbody.Sleep();
 
 		_canCharacterMove = false;
+
+		_currentCharacterState = CharacterState.Trap;
+
+		StartCoroutine("AnimateCharacter");
+	}
+
+	public void ApplyPowerup()
+	{
+		if(PowerupManager.powerupManagerInstance.availablePowerupType != PowerupManager.PowerupType.None)
+		{
+			rigidbody.Sleep();
+
+			_canCharacterMove = false;
+
+			_currentCharacterState = CharacterState.Powerup;
+
+			StartCoroutine("AnimatePowerup");
+		}
 	}
 
 	public void KillCharacter()
@@ -201,11 +222,31 @@ public class CharacterControl : MonoBehaviour
 
 		if(_currentCharacterState == CharacterState.Trap)
 		{
-			yield return new WaitForSeconds(_characterAnimator.GetCurrentAnimatorStateInfo(0).length);
+			float halfAnimationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length / 3;
+
+			yield return new WaitForSeconds(halfAnimationTime);
+
+			TrapManager.trapManagerInstance.AddTrap();
+
+			yield return new WaitForSeconds(halfAnimationTime);
 
 			_canCharacterMove = true;
 			_currentCharacterState = CharacterState.Idle;
 		}
+	}
+
+	public IEnumerator AnimatePowerup()
+	{
+		_characterAnimator.SetTrigger(PowerupManager.powerupManagerInstance.availablePowerupType.ToString());
+
+		PowerupManager.powerupManagerInstance.availablePowerup.SendMessage("UsePowerup", SendMessageOptions.DontRequireReceiver);
+
+		float animationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length;
+
+		yield return new WaitForSeconds(animationTime);
+
+		_canCharacterMove = true;
+		_currentCharacterState = CharacterState.Idle;
 	}
 
 	public IEnumerator AnimateCharacterDeath()
@@ -218,6 +259,8 @@ public class CharacterControl : MonoBehaviour
 
 		EnemySpawnManager.enemySpawnManagerInstance.KillAllEnemies();
 
+		PowerupManager.powerupManagerInstance.RemoveAllPowerups();
+
 		GameDirector.gameInstance.KillCharacter();
 	}
 
@@ -226,25 +269,6 @@ public class CharacterControl : MonoBehaviour
 		_isResumed = !_isResumed;
 
 		return _isResumed;
-	}
-
-	private void ApplyPowerup(PowerupManager.PowerupType powerupType)
-	{
-		_characterPowerupState = powerupType;
-
-		switch(powerupType)
-		{
-		case PowerupManager.PowerupType.A:
-			break;
-		case PowerupManager.PowerupType.B:
-			break;
-		case PowerupManager.PowerupType.C:
-			break;
-		case PowerupManager.PowerupType.D:
-			break;
-		case PowerupManager.PowerupType.E:
-			break;
-		}
 	}
 	#endregion
 

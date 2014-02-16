@@ -1,0 +1,187 @@
+fileFormatVersion: 2
+guid: 998faf951585145e1a763026102dd566
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: joint10
+    100004: joint11
+    100006: joint12
+    100008: joint13
+    100010: joint14
+    100012: joint15
+    100014: joint5
+    100016: min_Jar_bn
+    100018: polySurface1
+    100020: polySurface5
+    100022: polySurface5 1
+    100024: polySurface5 2
+    100026: polySurface5 3
+    100028: polySurface5 4
+    100030: polySurface5 5
+    100032: pPrism1
+    100034: pPrism2
+    100036: transform1
+    100038: transform2
+    400000: //RootNode
+    400002: joint10
+    400004: joint11
+    400006: joint12
+    400008: joint13
+    400010: joint14
+    400012: joint15
+    400014: joint5
+    400016: min_Jar_bn
+    400018: polySurface1
+    400020: polySurface5
+    400022: polySurface5 1
+    400024: polySurface5 2
+    400026: polySurface5 3
+    400028: polySurface5 4
+    400030: polySurface5 5
+    400032: pPrism1
+    400034: pPrism2
+    400036: transform1
+    400038: transform2
+    2300000: polySurface1
+    2300002: polySurface5
+    2300004: polySurface5 1
+    2300006: polySurface5 2
+    2300008: polySurface5 3
+    2300010: polySurface5 4
+    2300012: polySurface5 5
+    3300000: polySurface1
+    3300002: polySurface5
+    3300004: polySurface5 1
+    3300006: polySurface5 2
+    3300008: polySurface5 3
+    3300010: polySurface5 4
+    3300012: polySurface5 5
+    4300000: polySurface1
+    4300002: polySurface5
+    4300004: polySurface5
+    4300006: polySurface5
+    4300008: polySurface5
+    4300010: polySurface5
+    4300012: polySurface5
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 50
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: min_Jar_bn
+        weight: 1
+      - path: min_Jar_bn/joint10
+        weight: 1
+      - path: min_Jar_bn/joint10/joint5
+        weight: 1
+      - path: min_Jar_bn/joint10/joint5/polySurface5 5
+        weight: 1
+      - path: min_Jar_bn/joint10/joint11
+        weight: 1
+      - path: min_Jar_bn/joint10/joint11/polySurface5
+        weight: 1
+      - path: min_Jar_bn/joint10/joint12
+        weight: 1
+      - path: min_Jar_bn/joint10/joint12/polySurface5 1
+        weight: 1
+      - path: min_Jar_bn/joint10/joint13
+        weight: 1
+      - path: min_Jar_bn/joint10/joint13/polySurface5 2
+        weight: 1
+      - path: min_Jar_bn/joint10/joint14
+        weight: 1
+      - path: min_Jar_bn/joint10/joint14/polySurface5 3
+        weight: 1
+      - path: min_Jar_bn/joint10/joint15
+        weight: 1
+      - path: min_Jar_bn/joint10/joint15/polySurface5 4
+        weight: 1
+      - path: min_Jar_bn/polySurface1
+        weight: 1
+      - path: pPrism1
+        weight: 1
+      - path: pPrism1/transform2
+        weight: 1
+      - path: pPrism2
+        weight: 1
+      - path: pPrism2/transform1
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .100000001
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  userData: 

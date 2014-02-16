@@ -40,7 +40,7 @@ public class EnemyControl : MonoBehaviour
 		{
 			if(GameDirector.gameInstance.character != null)
 			{
-				Vector3 destination = GameDirector.gameInstance.character.position;
+				Vector3 destination = FindNextDestination();
 
 				_enemyNavMeshAgent.destination = destination;
 
@@ -58,6 +58,26 @@ public class EnemyControl : MonoBehaviour
 	#endregion
 
 	#region Methods
+	private Vector3 FindNextDestination()
+	{
+		Vector3 nextTarget = GameDirector.gameInstance.character.position;
+
+		float distance = Vector3.Distance(transform.position, nextTarget);
+
+		foreach(Transform trap in TrapManager.trapManagerInstance.trapsCollection.Values)
+		{
+			float trapDistance = Vector3.Distance(transform.position, trap.position);
+
+			if(trapDistance < distance)
+			{
+				distance = trapDistance;
+				nextTarget = trap.position;
+			}
+		}
+
+		return nextTarget;
+	}
+
 	public void PauseEnemy()
 	{
 		_enableEnemy = false;
@@ -66,6 +86,13 @@ public class EnemyControl : MonoBehaviour
 	public void ResumeEnemy()
 	{
 		_enableEnemy = true;
+	}
+
+	public void KillByTrap()
+	{
+		EnemySpawnManager.enemySpawnManagerInstance.KillEnemy(gameObject.name);
+
+		Destroy(gameObject);
 	}
 	#endregion
 }

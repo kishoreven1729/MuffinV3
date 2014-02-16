@@ -1,6 +1,7 @@
 ﻿#region References
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 #endregion
 
 public class PowerupManager : MonoBehaviour 
@@ -8,38 +9,51 @@ public class PowerupManager : MonoBehaviour
 	#region Enum
 	public enum PowerupType
 	{
-		A = 0,
-		B = 1,
-		C = 2,
-		D = 3,
-		E = 4,
-		None
+		None,
+		CranberrySpin,
+		HoneyBlast,
+		Crumbs
 	}
 	#endregion
 
 	#region Private Variables
-	private bool 			_shouldGeneratePowerup;
-	private float			_generatorTimer;
-	private int				_powerupTypesCount;
-	private Rect			_powerupSpawnBoundary;
-	private float			_distanceToTrapThreshold;
+	private bool 								_shouldGeneratePowerup;
+	private float								_generatorTimer;
+	private int									_powerupTypesCount;
+	private Rect								_powerupSpawnBoundary;
+	private float								_distanceToTrapThreshold;
+
+	private float								_leftOverTime;
+	private Dictionary<string, Transform>		_powerupsCollection;
 	#endregion
 
 	#region Public Variables
 	public static PowerupManager 	powerupManagerInstance;
 
 	public float					generatorTimeInterval;
-	public Transform[]				powerupTypesPrefabs;					/* Order Matters -> Same as enum decleration */
+	public Transform				powerupPrefab;
+
+	public Transform				availablePowerup;
+	public PowerupType				availablePowerupType;
 	#endregion
 
 	#region Constructor
+	void Awake()
+	{
+		powerupManagerInstance = this;
+	}
+
 	void Start() 
 	{	
-		_shouldGeneratePowerup = false;
-
-		_powerupTypesCount = powerupTypesPrefabs.Length;
+		_shouldGeneratePowerup = true;
 
 		_distanceToTrapThreshold = 1.5f;
+
+		_powerupTypesCount = 3;
+
+		_powerupsCollection = new Dictionary<string, Transform>();
+
+		availablePowerupType = PowerupType.None;
 
 		try
 		{
@@ -60,24 +74,17 @@ public class PowerupManager : MonoBehaviour
 	#region Loop
 	void Update () 
 	{
-		if(Time.time > _generatorTimer)
+		if(Time.time > _generatorTimer && _shouldGeneratePowerup == true)
 		{
 			_generatorTimer = Time.time + generatorTimeInterval;
 
 			int index = ChoosePowerupIndex();
 
+			Vector3 position = ChoosePowerupLocation();
+
 			if(index >= 0)
 			{
-				Vector3 position = ChoosePowerupLocation();
-
-				try
-				{
-					Instantiate(powerupTypesPrefabs[index], position, Quaternion.identity);
-				}
-				catch (System.Exception ex)
-				{
-					Debug.Log("PowerupManager-Update: \n" + ex.Message);
-				}
+				AddPowerup(position, index);
 			}
 		}
 	}
@@ -106,6 +113,51 @@ public class PowerupManager : MonoBehaviour
 		return index;
 	}
 
+	public void AddPowerup(Vector3 position, int powerupIndex)
+	{
+		try
+		{
+			string name = "Powerup_" + Time.time;
+			Transform powerup = Instantiate(powerupPrefab, position, Quaternion.identity) as Transform;
+			powerup.name = name;
+			
+			_powerupsCollection.Add(name, powerup);
+
+			PowerupType powerupType = PowerupType.None;
+
+			switch(powerupIndex)
+			{
+			case 0:
+				powerupType = PowerupType.CranberrySpin;
+				break;
+			case 1:
+				powerupType = PowerupType.HoneyBlast;
+				break;
+			case 2:
+				powerupType = PowerupType.Crumbs;
+				break;
+			}
+
+			powerup.SendMessage("AssignPowerup", powerupType, SendMessageOptions.DontRequireReceiver);
+		}
+		catch (System.Exception ex)
+		{
+			Debug.Log("AddPowerup-Update: \n" + ex.Message);
+		}
+	}
+
+	public void RemovePowerup(string powerupName)
+	{
+		try
+		{
+			_powerupsCollection.Remove(powerupName);
+		}
+		catch (System.Exception ex)
+		{
+			Debug.Log("RemovePowerup-Update: \n" + ex.Message);
+		}
+	}
+
 	public Vector3 ChoosePowerupLocation()
 	{
 		Vector3 powerupLocation = Vector3.zero;
@@ -115,7 +167,7 @@ public class PowerupManager : MonoBehaviour
 
 		/*Fetch traps data and compute distance*/
 		bool awayFromTraps = false;
-		int maxIterations = 100;
+		int maxIterations = 1000;
 
 		while(awayFromTraps == false && maxIterations > 0)
 		{
@@ -135,10 +187,65 @@ public class PowerupManager : MonoBehaviour
 				}
 			}
 
+			foreach(Transform powerup in _powerupsCollection.Values)
+			{
+				float distance = Vector3.Distance(powerupLocation, powerup.position);
+				
+				if(distance < _distanceToTrapThreshold)
+				{
+					awayFromTraps = false;
+					break;
+				}
+			}
+
+			if(GameDirector.gameInstance.character != null)
+			{
+				if(Vector3.Distance(powerupLocation, GameDirector.gameInstance.character.position) < _distanceToTrapThreshold)
+				{
+					awayFromTraps = false;
+				}
+			}
+
 			maxIterations--;
 		}
 
 		return powerupLocation;
+	}
+
+	public void PausePowerupGeneration()
+	{
+		_shouldGeneratePowerup = false;
+
+		_leftOverTime = _generatorTimer - Time.time;
+
+		foreach(Transform powerup in _powerupsCollection.Values)
+		{
+			powerup.SendMessage("PausePowerupTimer", SendMessageOptions.DontRequireReceiver);
+		}
+	}
+
+	public void ResumePowerupGeneration()
+	{
+		_shouldGeneratePowerup = true;
+
+		_generatorTimer = _leftOverTime + Time.time;
+
+		foreach(Transform powerup in _powerupsCollection.Values)
+		{
+			powerup.SendMessage("ResumePowerupTimer", SendMessageOptions.DontRequireReceiver);
+		}
+	}
+
+	public void RemoveAllPowerups()
+	{
+		_shouldGeneratePowerup = false;
+
+		foreach(Transform powerup in _powerupsCollection.Values)
+		{
+			Destroy(powerup.gameObject);
+		}
+		
+		_powerupsCollection.Clear();
 	}
 	#endregion
 

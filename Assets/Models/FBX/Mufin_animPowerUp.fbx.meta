@@ -1,46 +1,45 @@
 fileFormatVersion: 2
-guid: 231a0ef058244431587a1f075aedde65
+guid: 51e2908c8cda644de89a2b5c68e80868
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: be_L_eye1
-    100004: be_R_eye
-    100006: bn_cup
-    100008: bn_had
-    100010: bn_l_TopEyeTip
-    100012: bn_R_BotamEyeTip
-    100014: bn_R_TopEyeTip
-    100016: go_L_eye
-    100018: go_muffin
-    100020: go_R_eye
-    100022: joint2
-    100024: joint8
-    100026: joint9
+    100000: be_L_eye1
+    100002: be_R_eye
+    100004: bn_cup
+    100006: bn_had
+    100008: bn_l_TopEyeTip
+    100010: bn_R_BotamEyeTip
+    100012: bn_R_TopEyeTip
+    100014: go_L_eye
+    100016: go_muffin
+    100018: go_R_eye
+    100020: joint2
+    100022: joint8
+    100024: joint9
+    100026: //RootNode
     100028: RootBone
-    400000: //RootNode
-    400002: be_L_eye1
-    400004: be_R_eye
-    400006: bn_cup
-    400008: bn_had
-    400010: bn_l_TopEyeTip
-    400012: bn_R_BotamEyeTip
-    400014: bn_R_TopEyeTip
-    400016: go_L_eye
-    400018: go_muffin
-    400020: go_R_eye
-    400022: joint2
-    400024: joint8
-    400026: joint9
+    400000: be_L_eye1
+    400002: be_R_eye
+    400004: bn_cup
+    400006: bn_had
+    400008: bn_l_TopEyeTip
+    400010: bn_R_BotamEyeTip
+    400012: bn_R_TopEyeTip
+    400014: go_L_eye
+    400016: go_muffin
+    400018: go_R_eye
+    400020: joint2
+    400022: joint8
+    400024: joint9
+    400026: //RootNode
     400028: RootBone
     4300000: go_R_eye
     4300002: go_L_eye
     4300004: go_muffin
-    7400000: Take 001
-    7400002: Walk
-    7400004: Idle
-    7400006: DropTrap
-    7400008: Die
+    7400000: HoneyBlast
+    7400002: Crumbs
+    7400004: CranberrySpin
+    7400006: DropTrapB
     9500000: //RootNode
     13700000: go_L_eye
     13700002: go_muffin
@@ -61,10 +60,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: HoneyBlast
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 150
+      firstFrame: 40
+      lastFrame: 65
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -117,178 +116,122 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Walk
-      takeName: Take 001
-      firstFrame: 55
-      lastFrame: 71
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: go_L_eye
-        weight: 1
-      - path: go_R_eye
-        weight: 1
-      - path: RootBone
-        weight: 1
-      - path: RootBone/bn_cup
-        weight: 1
-      - path: RootBone/bn_cup/bn_had
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
-        weight: 1
-      - path: RootBone/bn_cup/go_muffin
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-    - serializedVersion: 16
-      name: Idle
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 54
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: go_L_eye
-        weight: 1
-      - path: go_R_eye
-        weight: 1
-      - path: RootBone
-        weight: 1
-      - path: RootBone/bn_cup
-        weight: 1
-      - path: RootBone/bn_cup/bn_had
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
-        weight: 1
-      - path: RootBone/bn_cup/go_muffin
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-    - serializedVersion: 16
-      name: DropTrap
-      takeName: Take 001
-      firstFrame: 80
-      lastFrame: 99
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: go_L_eye
-        weight: 1
-      - path: go_R_eye
-        weight: 1
-      - path: RootBone
-        weight: 1
-      - path: RootBone/bn_cup
-        weight: 1
-      - path: RootBone/bn_cup/bn_had
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
-        weight: 1
-      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
-        weight: 1
-      - path: RootBone/bn_cup/go_muffin
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-    - serializedVersion: 16
-      name: Die
+      name: Crumbs
       takeName: Take 001
       firstFrame: 100
       lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: go_L_eye
+        weight: 1
+      - path: go_R_eye
+        weight: 1
+      - path: RootBone
+        weight: 1
+      - path: RootBone/bn_cup
+        weight: 1
+      - path: RootBone/bn_cup/bn_had
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
+        weight: 1
+      - path: RootBone/bn_cup/go_muffin
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: CranberrySpin
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 39
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: go_L_eye
+        weight: 1
+      - path: go_R_eye
+        weight: 1
+      - path: RootBone
+        weight: 1
+      - path: RootBone/bn_cup
+        weight: 1
+      - path: RootBone/bn_cup/bn_had
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/bn_l_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint8
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_L_eye1/joint9
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_BotamEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/bn_R_TopEyeTip
+        weight: 1
+      - path: RootBone/bn_cup/bn_had/be_R_eye/joint2
+        weight: 1
+      - path: RootBone/bn_cup/go_muffin
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: DropTrapB
+      takeName: Take 001
+      firstFrame: 66
+      lastFrame: 90
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

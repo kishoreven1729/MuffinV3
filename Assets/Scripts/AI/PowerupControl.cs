@@ -6,17 +6,20 @@ using System.Collections;
 public class PowerupControl : MonoBehaviour 
 {
 	#region Private Variables
-	private float	_powerupExpiryInterval;
-	private float 	_powerupExpiryTimer;
+	private float		_powerupExpiryInterval;
+	private float 		_powerupExpiryTimer;
 
-	private bool	_isPowerupTaken;
-	private bool 	_isPowerupUsed;
+	private bool		_isPowerupTaken;
+	private bool 		_isPowerupUsed;
+
+	private bool		_isPaused;
+	private float		_leftOverTime;
+
+	private Transform	_powerupJar;
 	#endregion
 
 	#region Public Variables
 	public PowerupManager.PowerupType 	powerupType;
-	public bool							isOneTimeUse;
-	public float						impactTime;
 	#endregion
 
 	#region Constructor
@@ -29,56 +32,76 @@ public class PowerupControl : MonoBehaviour
 		_isPowerupTaken = false;
 
 		_isPowerupUsed = false;
+
+		_isPaused = false;
 	}
 
 	void Start() 
 	{
+		try
+		{
+			_powerupJar = transform.FindChild("PowerupJar");
+		}
+		catch(System.Exception ex)
+		{
+			Debug.Log("PowerupControl-Start: \n" + ex.Message);
+		}
 	}
 	#endregion
 	
 	#region Loop
 	void Update() 
 	{
-		if(_isPowerupTaken == false)
+		if(_isPaused == false)
 		{
-			if(Time.time > _powerupExpiryTimer)
-			{
-				Destroy(gameObject);
-			}
-		}
-		else
-		{
-			if(_isPowerupUsed == true)
+			if(_isPowerupTaken == false)
 			{
 				if(Time.time > _powerupExpiryTimer)
 				{
-					GameDirector.gameInstance.character.SendMessage("RemovePowerup", powerupType, SendMessageOptions.DontRequireReceiver);
-
 					Destroy(gameObject);
 				}
 			}
-			else if(_isPowerupTaken == true)
+			else
 			{
-				if(Time.time > _powerupExpiryTimer)
+				if(_isPowerupTaken == true)
 				{
-					/* Send UI Message */
-					Destroy(gameObject);
+					if(Time.time > _powerupExpiryTimer)
+					{
+						/* Send UI Message */
+
+						if(PowerupManager.powerupManagerInstance.availablePowerupType != PowerupManager.PowerupType.None)
+						{
+							PowerupManager.powerupManagerInstance.availablePowerupType = PowerupManager.PowerupType.None;
+							Destroy(gameObject);
+						}
+					}
 				}
 			}
 		}
 	}
 
-	public void OnTriggerEnter(Collider collider)
+	public void OnTriggerEnter(Collider otherCollider)
 	{
-		if(collider.CompareTag("Player") && _isPowerupTaken == false)
+		if(_isPaused == false)
 		{
-			_isPowerupTaken = true;
+			if(otherCollider.CompareTag("Player") && _isPowerupTaken == false)
+			{
+				if(PowerupManager.powerupManagerInstance.availablePowerupType != PowerupManager.PowerupType.None)
+				{
+					PowerupManager.powerupManagerInstance.RemovePowerup(PowerupManager.powerupManagerInstance.availablePowerup.gameObject.name);
+					Destroy(PowerupManager.powerupManagerInstance.availablePowerup.gameObject);
+				}
 
-			/* Send UI Message */
+				PowerupManager.powerupManagerInstance.availablePowerup = transform;
+				PowerupManager.powerupManagerInstance.availablePowerupType = powerupType;
 
-			renderer.enabled = false;
+				_isPowerupTaken = true;
 
-			_powerupExpiryTimer = Time.time + _powerupExpiryInterval * 2.0f;
+				_powerupJar.gameObject.SetActive(false);
+				collider.enabled = false;
+
+				_powerupExpiryTimer = Time.time + _powerupExpiryTimer;
+			}
 		}
 	}
 	#endregion
@@ -86,25 +109,26 @@ public class PowerupControl : MonoBehaviour
 	#region Methods
 	public void UsePowerup()
 	{
-		_isPowerupUsed = true;
-
-		/*Send UI Message*/
-
-		if(isOneTimeUse == false)
-		{
-			_powerupExpiryTimer = Time.time + impactTime;
-
-			GameDirector.gameInstance.character.SendMessage("ApplyPowerup", powerupType, SendMessageOptions.DontRequireReceiver);
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
+		PowerupManager.powerupManagerInstance.RemovePowerup(gameObject.name);
+		PowerupManager.powerupManagerInstance.availablePowerupType = PowerupManager.PowerupType.None;
+		Destroy(gameObject);
 	}
 
-	public void OverridePowerup()
+	public void AssignPowerup(PowerupManager.PowerupType powerup)
 	{
-		Destroy(gameObject);
+		powerupType = powerup;
+	}
+
+	public void PausePowerupTimer()
+	{
+		_isPaused = true;
+		_leftOverTime = _powerupExpiryTimer - Time.time;
+	}
+
+	public void ResumePowerupTimer()
+	{
+		_isPaused = false;
+		_powerupExpiryTimer = _leftOverTime + Time.time;
 	}
 	#endregion
 }
