@@ -9,6 +9,8 @@ public class EnemyControl : MonoBehaviour
 	private NavMeshAgent	_enemyNavMeshAgent;
 	private float			_enemyDistanceThreshold;
 	private bool			_enableEnemy;
+
+	private bool			_glueEnemy;
 	#endregion
 
 	#region Public Variables
@@ -30,6 +32,8 @@ public class EnemyControl : MonoBehaviour
 		}
 
 		_enableEnemy = true;
+
+		_glueEnemy = false;
 	}
 	#endregion
 	
@@ -38,17 +42,24 @@ public class EnemyControl : MonoBehaviour
 	{
 		if(_enableEnemy == true)
 		{
-			if(GameDirector.gameInstance.character != null)
+			if(_glueEnemy == false)
 			{
-				Vector3 destination = FindNextDestination();
-
-				_enemyNavMeshAgent.destination = destination;
-
-				if(Vector3.Distance(destination, transform.position) < _enemyDistanceThreshold)
+				if(GameDirector.gameInstance.character != null)
 				{
-					_enemyNavMeshAgent.velocity = Vector3.zero;
+					Vector3 destination = FindNextDestination();
+					
+					_enemyNavMeshAgent.destination = destination;
+					
+					if(Vector3.Distance(destination, transform.position) < _enemyDistanceThreshold)
+					{
+						_enemyNavMeshAgent.velocity = Vector3.zero;
+					}
 				}
 			}
+			else
+			{
+				_enemyNavMeshAgent.velocity = Vector3.zero;
+			}	
 		}
 		else
 		{
@@ -93,6 +104,16 @@ public class EnemyControl : MonoBehaviour
 		EnemySpawnManager.enemySpawnManagerInstance.KillEnemy(gameObject.name);
 
 		Destroy(gameObject);
+	}
+
+	public void FreezeBlast()
+	{
+		_glueEnemy = true;
+	}
+
+	public void UnFreezeBlast()
+	{
+		_glueEnemy = false;
 	}
 	#endregion
 }

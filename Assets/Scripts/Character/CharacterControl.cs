@@ -239,11 +239,13 @@ public class CharacterControl : MonoBehaviour
 	{
 		_characterAnimator.SetTrigger(PowerupManager.powerupManagerInstance.availablePowerupType.ToString());
 
+		float halfAnimationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+
+		yield return new WaitForSeconds(halfAnimationTime);
+
 		PowerupManager.powerupManagerInstance.availablePowerup.SendMessage("UsePowerup", SendMessageOptions.DontRequireReceiver);
 
-		float animationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length;
-
-		yield return new WaitForSeconds(animationTime);
+		yield return new WaitForSeconds(halfAnimationTime);
 
 		_canCharacterMove = true;
 		_currentCharacterState = CharacterState.Idle;

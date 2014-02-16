@@ -176,34 +176,38 @@ public class PowerupManager : MonoBehaviour
 			powerupLocation.x = Random.Range(_powerupSpawnBoundary.xMin, _powerupSpawnBoundary.xMax);
 			powerupLocation.z = Random.Range(_powerupSpawnBoundary.yMin, _powerupSpawnBoundary.yMax);
 
-			foreach(Transform trap in TrapManager.trapManagerInstance.trapsCollection.Values)
+			try
 			{
-				float distance = Vector3.Distance(powerupLocation, trap.position);
-
-				if(distance < _distanceToTrapThreshold)
+				foreach(Transform trap in TrapManager.trapManagerInstance.trapsCollection.Values)
 				{
-					awayFromTraps = false;
-					break;
-				}
-			}
+					float distance = Vector3.Distance(powerupLocation, trap.position);
 
-			foreach(Transform powerup in _powerupsCollection.Values)
-			{
-				float distance = Vector3.Distance(powerupLocation, powerup.position);
-				
-				if(distance < _distanceToTrapThreshold)
+					if(distance < _distanceToTrapThreshold)
+					{
+						awayFromTraps = false;
+						break;
+					}
+				}
+
+				foreach(Transform powerup in _powerupsCollection.Values)
 				{
-					awayFromTraps = false;
-					break;
+					float distance = Vector3.Distance(powerupLocation, powerup.position);
+					
+					if(distance < _distanceToTrapThreshold)
+					{
+						awayFromTraps = false;
+						break;
+					}
 				}
-			}
 
-			if(GameDirector.gameInstance.character != null)
-			{
 				if(Vector3.Distance(powerupLocation, GameDirector.gameInstance.character.position) < _distanceToTrapThreshold)
 				{
 					awayFromTraps = false;
 				}
+			}
+			catch(System.Exception ex)
+			{
+				Debug.Log("PowerupManager-ChoosePowerupLocation: \n" + ex.Message);
 			}
 
 			maxIterations--;
@@ -242,7 +246,10 @@ public class PowerupManager : MonoBehaviour
 
 		foreach(Transform powerup in _powerupsCollection.Values)
 		{
-			Destroy(powerup.gameObject);
+			if(powerup != null)
+			{
+				Destroy(powerup.gameObject);
+			}
 		}
 		
 		_powerupsCollection.Clear();
