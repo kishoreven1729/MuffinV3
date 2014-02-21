@@ -242,17 +242,24 @@ public class PowerupManager : MonoBehaviour
 
 	public void RemoveAllPowerups()
 	{
-		_shouldGeneratePowerup = false;
-
-		foreach(Transform powerup in _powerupsCollection.Values)
+		try
 		{
-			if(powerup != null)
+			_shouldGeneratePowerup = false;
+
+			foreach(Transform powerup in _powerupsCollection.Values)
 			{
-				Destroy(powerup.gameObject);
+				if(powerup != null)
+				{
+					Destroy(powerup.gameObject);
+				}
 			}
+			
+			_powerupsCollection.Clear();
 		}
-		
-		_powerupsCollection.Clear();
+		catch(System.Exception ex)
+		{
+			Debug.Log("PowerupManager-RemoveAllPowerups: \n" + ex.Message);
+		}
 	}
 	#endregion
 

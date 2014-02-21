@@ -10,7 +10,6 @@ public class EnemySpawnManager : MonoBehaviour
 	private Transform[] 			_enemySpawnPoints;
 	private int						_enemySpawnPointsCount;
 
-	private float					_spawnInterval;
 	private float					_spawnTimer;
 		
 	private int						_numberOfSpawns;
@@ -27,6 +26,8 @@ public class EnemySpawnManager : MonoBehaviour
 	public static EnemySpawnManager			enemySpawnManagerInstance;
 	public Transform[]						enemyPrefabs;
 	public Dictionary<string, Transform>	enemyCollection;
+
+	public float							spawnInterval;
 	#endregion
 
 	#region Constructor
@@ -38,7 +39,6 @@ public class EnemySpawnManager : MonoBehaviour
 	void Start()
 	{
 		_spawnTimer = 0.0f;
-		_spawnInterval = 5.0f;
 
 		_numberOfSpawns = 1;
 
@@ -76,7 +76,7 @@ public class EnemySpawnManager : MonoBehaviour
 
 			if(currentTime > _spawnTimer)
 			{
-				_spawnTimer += _spawnInterval;
+				_spawnTimer += spawnInterval;
 
 				SpawnEnemy(currentTime);
 			}
@@ -200,12 +200,19 @@ public class EnemySpawnManager : MonoBehaviour
 
 	public void KillAllEnemies()
 	{
-		foreach(Transform enemy in enemyCollection.Values)
+		try
 		{
-			Destroy(enemy.gameObject);
-		}
+			foreach(Transform enemy in enemyCollection.Values)
+			{
+				Destroy(enemy.gameObject);
+			}
 
-		enemyCollection.Clear();
+			enemyCollection.Clear();
+		}
+		catch(System.Exception ex)
+		{
+			Debug.Log("EnemySpawnManager-KillAllEnemies: \n" + ex.Message);
+		}
 	}
 
 	public void UpEnemyLevel()

@@ -28,6 +28,8 @@ public class CharacterControl : MonoBehaviour
 
 	private bool						_isResumed;
 	private bool						_requestForDeathAnimation;
+
+	private Transform					_explosionSphere;
 	#endregion
 
 	#region Public Variables
@@ -36,7 +38,7 @@ public class CharacterControl : MonoBehaviour
 	#region Constructor
 	void Start() 
 	{
-		_characterMovementSpeed = 5.0f;
+		_characterMovementSpeed = 15.0f;
 		_characterTurningStrength = 1000.0f;
 
 		_characterMovementThreshold = 0.2f;
@@ -45,7 +47,9 @@ public class CharacterControl : MonoBehaviour
 
 		try
 		{
-			_characterAnimator = transform.GetChild(0).GetComponent<Animator>();
+			_characterAnimator = transform.FindChild("AssetMuffin").GetComponent<Animator>();
+
+			_explosionSphere = transform.FindChild("SpinBlast") as Transform;
 		}
 		catch (System.Exception ex)
 		{
@@ -74,8 +78,8 @@ public class CharacterControl : MonoBehaviour
 
 			if(_canCharacterMove == true)
 			{
-				/*_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);*/
-				_characterMovementDirection = Vector3.zero;
+				//_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
+				//_characterMovementDirection = Vector3.zero;
 
 				if(Input.GetKey(KeyCode.A))
 				{
@@ -103,11 +107,11 @@ public class CharacterControl : MonoBehaviour
 					newCharacterState = CharacterState.Idle;
 				}
 
-				if(Input.GetKeyDown(KeyCode.E))
+				if(Input.GetKeyDown(KeyCode.Space))
 				{
 					DropTrap();
 				}
-				if(Input.GetKeyDown(KeyCode.Q))
+				if(Input.GetKeyDown(KeyCode.E))
 				{
 					ApplyPowerup();
 				}
@@ -213,6 +217,8 @@ public class CharacterControl : MonoBehaviour
 
 		EnemySpawnManager.enemySpawnManagerInstance.PauseSpawning();
 
+		PowerupManager.powerupManagerInstance.RemoveAllPowerups();
+
 		GameDirector.gameInstance.gameCamera.SendMessage("AnimateToDeath", SendMessageOptions.DontRequireReceiver);
 	}
 
@@ -237,13 +243,28 @@ public class CharacterControl : MonoBehaviour
 
 	public IEnumerator AnimatePowerup()
 	{
-		_characterAnimator.SetTrigger(PowerupManager.powerupManagerInstance.availablePowerupType.ToString());
+		PowerupManager.PowerupType powerupType = PowerupManager.powerupManagerInstance.availablePowerupType;
+
+		_characterAnimator.SetTrigger(powerupType.ToString());
 
 		float halfAnimationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
 
 		yield return new WaitForSeconds(halfAnimationTime);
 
-		PowerupManager.powerupManagerInstance.availablePowerup.SendMessage("UsePowerup", SendMessageOptions.DontRequireReceiver);
+		switch(powerupType)
+		{
+		case PowerupManager.PowerupType.CranberrySpin:
+			_explosionSphere.gameObject.SetActive(true);
+			break;
+		case PowerupManager.PowerupType.Crumbs:
+			CrumbsManager.crumbsInstance.SprinkleCrumbs();
+			break;
+		}
+
+		if(PowerupManager.powerupManagerInstance.availablePowerup != null)
+		{
+			PowerupManager.powerupManagerInstance.availablePowerup.SendMessage("UsePowerup", SendMessageOptions.DontRequireReceiver);
+		}
 
 		yield return new WaitForSeconds(halfAnimationTime);
 
@@ -261,7 +282,7 @@ public class CharacterControl : MonoBehaviour
 
 		EnemySpawnManager.enemySpawnManagerInstance.KillAllEnemies();
 
-		PowerupManager.powerupManagerInstance.RemoveAllPowerups();
+		CrumbsManager.crumbsInstance.DestroyAllCrumbs();
 
 		GameDirector.gameInstance.KillCharacter();
 	}
@@ -269,6 +290,18 @@ public class CharacterControl : MonoBehaviour
 	public bool ToggleCharacterMovement()
 	{
 		_isResumed = !_isResumed;
+
+		if(_explosionSphere.gameObject.activeSelf == true)
+		{
+			if(_isResumed == false)
+			{
+				_explosionSphere.SendMessage("PauseExplosion", SendMessageOptions.DontRequireReceiver);
+			}
+			else
+			{
+				_explosionSphere.SendMessage("ResumeExplosion", SendMessageOptions.DontRequireReceiver);
+			}
+		}
 
 		return _isResumed;
 	}
@@ -283,10 +316,10 @@ public class CharacterControl : MonoBehaviour
 		}
 		else
 		{
-			if(_currentCharacterState == CharacterState.Die)
-			{
+			/*if(_currentCharacterState == CharacterState.Die)
+			{*/
 				_requestForDeathAnimation = true;
-			}
+			//}
 		}
 	}
 	#endregion

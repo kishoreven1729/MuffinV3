@@ -70,9 +70,9 @@ public class TrapControl : MonoBehaviour
 		}
 	}
 
-	void OnCollisionEnter(Collision collision)
+	void OnTriggerEnter(Collider otherCollider)
 	{
-		if(collision.collider.CompareTag("Enemy"))
+		if(otherCollider.CompareTag("Enemy"))
 		{
 			_explosion.gameObject.SetActive(true);
 

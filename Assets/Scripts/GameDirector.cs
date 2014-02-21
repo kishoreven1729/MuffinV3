@@ -73,7 +73,7 @@ public class GameDirector : MonoBehaviour
 			character = Instantiate(characterPrefab, _initialCharacterPosition, _initialCharacterRotation) as Transform;
 			character.name = "Character";
 
-			characterDropLocation = character.GetChild(1) as Transform;
+			characterDropLocation = character.FindChild("DropLocation") as Transform;
 
 			gameCamera.SendMessage("AnimateToStart", SendMessageOptions.DontRequireReceiver);
 		}
