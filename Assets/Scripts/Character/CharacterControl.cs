@@ -17,7 +17,6 @@ public class CharacterControl : MonoBehaviour
 	#endregion
 
 	#region Private Variables
-	private float						_characterMovementSpeed;
 	private float						_characterTurningStrength;
 	private float						_characterMovementThreshold;
 	private Vector3						_characterMovementDirection;
@@ -33,15 +32,16 @@ public class CharacterControl : MonoBehaviour
 	#endregion
 
 	#region Public Variables
+	public float						characterMovementSpeed;
 	#endregion
 
 	#region Constructor
 	void Start() 
 	{
-		_characterMovementSpeed = 15.0f;
+		//characterMovementSpeed = 8.0f;
 		_characterTurningStrength = 1000.0f;
 
-		_characterMovementThreshold = 0.2f;
+		_characterMovementThreshold = 0.1f;
 
 		_characterMovementDirection = Vector3.zero;
 
@@ -78,8 +78,23 @@ public class CharacterControl : MonoBehaviour
 
 			if(_canCharacterMove == true)
 			{
-				//_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
-				//_characterMovementDirection = Vector3.zero;
+				_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
+
+				if(Input.GetButtonDown("Fire1"))
+				{
+					Vector2 touchPosition = Input.GetTouch(0).position;
+
+					if(touchPosition.x < Screen.width / 2)
+					{
+						newCharacterState = CharacterState.Trap;
+						DropTrap();
+					}
+					else
+					{
+						newCharacterState = CharacterState.Powerup;
+						ApplyPowerup();
+					}
+				}
 
 				if(Input.GetKey(KeyCode.A))
 				{
@@ -109,12 +124,19 @@ public class CharacterControl : MonoBehaviour
 
 				if(Input.GetKeyDown(KeyCode.Space))
 				{
+					newCharacterState = CharacterState.Trap;
 					DropTrap();
 				}
 				if(Input.GetKeyDown(KeyCode.E))
 				{
+					newCharacterState = CharacterState.Powerup;
 					ApplyPowerup();
 				}
+			}
+
+			if(newCharacterState == CharacterState.Walk)
+			{
+				WalkCharacter();
 			}
 
 			if(newCharacterState != _currentCharacterState)
@@ -127,15 +149,12 @@ public class CharacterControl : MonoBehaviour
 					IdleCharacter();
 					break;
 				case CharacterState.Walk:
-					WalkCharacter();
 					break;
-//				case CharacterState.Trap:
-//					DropTrap();
-//					break;
 				}
 
 				StartCoroutine("AnimateCharacter");
 			}
+
 		}
 		else
 		{
@@ -175,7 +194,7 @@ public class CharacterControl : MonoBehaviour
 
 	public void WalkCharacter()
 	{
-		rigidbody.velocity = _characterMovementDirection * _characterMovementSpeed;
+		rigidbody.velocity = _characterMovementDirection * characterMovementSpeed;
 
 		transform.LookAt(_characterMovementDirection * _characterTurningStrength);
 	}
