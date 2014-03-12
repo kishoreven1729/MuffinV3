@@ -78,17 +78,23 @@ public class EnemySpawnManager : MonoBehaviour
 			{
 				_spawnTimer += spawnInterval;
 
-				SpawnEnemy(currentTime);
+				for(int index = 0; index < _enemySpawnPointsCount; index++)
+				{
+					float spawnCondition = Random.Range(0.0f, 1.0f);
+
+					if(spawnCondition < 0.6f)
+					{
+						SpawnEnemy(currentTime, index);
+					}
+				}
 			}
 		}
 	}
 	#endregion
 
 	#region Methods
-	private void SpawnEnemy(float time)
+	private void SpawnEnemy(float time, int index)
 	{
-		int index = ChooseRandomIndex(_enemySpawnPointsCount);
-
 		try
 		{
 			string enemyName = "Enemy_" + index + "_" + time;

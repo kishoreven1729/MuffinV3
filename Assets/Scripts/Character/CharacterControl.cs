@@ -80,6 +80,15 @@ public class CharacterControl : MonoBehaviour
 			{
 				_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
 
+				if(Vector3.Distance(Vector3.zero, _characterMovementDirection) > _characterMovementThreshold)
+				{
+					newCharacterState = CharacterState.Walk;
+				}
+				else
+				{
+					newCharacterState = CharacterState.Idle;
+				}
+
 				if(Input.GetButtonDown("Fire1"))
 				{
 					Vector2 touchPosition = Input.GetTouch(0).position;
@@ -96,7 +105,7 @@ public class CharacterControl : MonoBehaviour
 					}
 				}
 
-				if(Input.GetKey(KeyCode.A))
+				/*if(Input.GetKey(KeyCode.A))
 				{
 					_characterMovementDirection.x = -1.0f;
 				}
@@ -131,7 +140,7 @@ public class CharacterControl : MonoBehaviour
 				{
 					newCharacterState = CharacterState.Powerup;
 					ApplyPowerup();
-				}
+				}*/
 			}
 
 			if(newCharacterState == CharacterState.Walk)
@@ -194,6 +203,8 @@ public class CharacterControl : MonoBehaviour
 
 	public void WalkCharacter()
 	{
+		_characterMovementDirection.Normalize();
+
 		rigidbody.velocity = _characterMovementDirection * characterMovementSpeed;
 
 		transform.LookAt(_characterMovementDirection * _characterTurningStrength);
