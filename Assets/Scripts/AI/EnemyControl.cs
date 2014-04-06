@@ -101,6 +101,8 @@ public class EnemyControl : MonoBehaviour
 
 	public void KillByTrap()
 	{
+		ScoringDirector.scoringInstance.ApplyKillScore();
+
 		EnemySpawnManager.enemySpawnManagerInstance.KillEnemy(gameObject.name);
 
 		Destroy(gameObject);

@@ -254,7 +254,10 @@ public class CharacterControl : MonoBehaviour
 
 	public IEnumerator AnimateCharacter()
 	{
-		_characterAnimator.SetTrigger(_currentCharacterState.ToString());
+		if(_currentCharacterState != CharacterState.Powerup)
+		{
+			_characterAnimator.SetTrigger(_currentCharacterState.ToString());
+		}
 
 		if(_currentCharacterState == CharacterState.Trap)
 		{
@@ -308,7 +311,7 @@ public class CharacterControl : MonoBehaviour
 
 		float animationLength = _characterAnimator.GetCurrentAnimatorStateInfo(0).length;
 
-		Debug.Log("Death Animation Time: " + animationLength);
+		ScoringDirector.scoringInstance.PauseScoring();
 
 		EnemySpawnManager.enemySpawnManagerInstance.KillAllEnemies();
 		

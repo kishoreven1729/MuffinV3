@@ -236,6 +236,8 @@ public class PowerupManager : MonoBehaviour
 
 		_generatorTimer = Time.time + generatorTimeInterval;
 
+		availablePowerupType = PowerupType.None;
+
 		if(isFreeze == true)
 		{
 			_generatorTimer = _leftOverTime + Time.time;

@@ -112,6 +112,10 @@ public class CameraFollow : MonoBehaviour
 
 				/*Start Powerup Generator*/
 				PowerupManager.powerupManagerInstance.ResumePowerupGeneration();
+
+				GUIManager.guiInstance.InitializeGUI();
+
+				ScoringDirector.scoringInstance.StartScoring();
 			}
 		}
 	}

@@ -6,14 +6,22 @@ using System.Collections;
 public class GUIManager : MonoBehaviour 
 {
 	#region Private Variables
+	private bool _loadGUI;
 	#endregion
 
 	#region Public Variables
+	public static GUIManager guiInstance;
 	#endregion
 
 	#region Constructor
+	void Awake()
+	{
+		guiInstance = this;
+	}
+
 	void Start()
 	{
+		_loadGUI = false;
 	}
 	#endregion
 	
@@ -24,15 +32,24 @@ public class GUIManager : MonoBehaviour
 
 	void OnGUI()
 	{
-		if(GameDirector.gameInstance.characterLoaded == true)
+		if(_loadGUI == true)
 		{
-			GUI.Label(new Rect(10, 10, 150, 50), "Powerup: " + PowerupManager.powerupManagerInstance.availablePowerupType.ToString());
+			if(GameDirector.gameInstance.characterLoaded == true)
+			{
+				GUI.Label(new Rect(10, 10, 150, 50), "Powerup: " + PowerupManager.powerupManagerInstance.availablePowerupType.ToString());
 
-			GUI.Label(new Rect(10, 100, 150, 50), "Score: " + ScoringDirector.scoringInstance.gameScore);
+				GUI.Label(new Rect(10, 60, 150, 50), "Available Traps: " + TrapManager.trapManagerInstance.availableTrapCount);
+
+				GUI.Label(new Rect(10, 110, 150, 50), "Score: " + ScoringDirector.scoringInstance.gameScore);
+			}
 		}
 	}
 	#endregion
 
 	#region Methods
+	public void InitializeGUI()
+	{
+		_loadGUI = true;
+	}
 	#endregion
 }

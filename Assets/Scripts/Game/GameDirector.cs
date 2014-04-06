@@ -109,6 +109,8 @@ public class GameDirector : MonoBehaviour
 		PowerupManager.powerupManagerInstance.ResetPowerups();
 
 		TrapManager.trapManagerInstance.ResetTrapManager();
+
+		ScoringDirector.scoringInstance.ResetScoring();
 	}
 	#endregion
 

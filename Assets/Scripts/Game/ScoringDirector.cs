@@ -10,7 +10,7 @@ public class ScoringDirector : MonoBehaviour
 	#endregion
 
 	#region Private Variables
-	private int 					_killScore;
+	private int 					_cummulativeKillScore;
 	private long 					_timeScore;
 	private float					_survivalTime;
 
@@ -34,7 +34,7 @@ public class ScoringDirector : MonoBehaviour
 
 		_timeScore = 0;
 
-		_killScore = 0;
+		_cummulativeKillScore = 0;
 
 		_isScoringPaused = true;
 
@@ -51,9 +51,7 @@ public class ScoringDirector : MonoBehaviour
 
 			_timeScore = TimeScore();
 
-			gameScore = _timeScore + _killScore;
-
-			_killScore = 0;
+			gameScore = _timeScore + _cummulativeKillScore;
 		}
 	}
 
@@ -78,9 +76,9 @@ public class ScoringDirector : MonoBehaviour
 		_isScoringPaused = true;
 	}
 
-	public void ApplyKillScore(int numberOfKills)
+	public void ApplyKillScore(int bonus = 1)
 	{
-		_killScore = numberOfKills * PER_KILL_SCORE;
+		_cummulativeKillScore += bonus * PER_KILL_SCORE;
 	}
 
 	public void ResetScoring()
@@ -89,7 +87,7 @@ public class ScoringDirector : MonoBehaviour
 
 		_survivalTime = 0.0f;
 		_timeScore = 0;
-		_killScore = 0;
+		_cummulativeKillScore = 0;
 	}
 	#endregion
 }
