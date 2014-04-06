@@ -78,7 +78,7 @@ public class CharacterControl : MonoBehaviour
 
 			if(_canCharacterMove == true)
 			{
-				_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
+				/*_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
 
 				if(Vector3.Distance(Vector3.zero, _characterMovementDirection) > _characterMovementThreshold)
 				{
@@ -103,9 +103,9 @@ public class CharacterControl : MonoBehaviour
 						newCharacterState = CharacterState.Powerup;
 						ApplyPowerup();
 					}
-				}
+				}*/
 
-				/*if(Input.GetKey(KeyCode.A))
+				if(Input.GetKey(KeyCode.A))
 				{
 					_characterMovementDirection.x = -1.0f;
 				}
@@ -140,7 +140,7 @@ public class CharacterControl : MonoBehaviour
 				{
 					newCharacterState = CharacterState.Powerup;
 					ApplyPowerup();
-				}*/
+				}
 			}
 
 			if(newCharacterState == CharacterState.Walk)
@@ -277,7 +277,7 @@ public class CharacterControl : MonoBehaviour
 
 		_characterAnimator.SetTrigger(powerupType.ToString());
 
-		float halfAnimationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+		float halfAnimationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length / 3;
 
 		yield return new WaitForSeconds(halfAnimationTime);
 
@@ -308,11 +308,17 @@ public class CharacterControl : MonoBehaviour
 
 		float animationLength = _characterAnimator.GetCurrentAnimatorStateInfo(0).length;
 
-		yield return new WaitForSeconds(animationLength);
+		Debug.Log("Death Animation Time: " + animationLength);
 
 		EnemySpawnManager.enemySpawnManagerInstance.KillAllEnemies();
-
+		
 		CrumbsManager.crumbsInstance.DestroyAllCrumbs();
+		
+		TrapManager.trapManagerInstance.DestroyAllTraps();
+		
+		PowerupManager.powerupManagerInstance.RemoveAllPowerups();
+
+		yield return new WaitForSeconds(animationLength);
 
 		GameDirector.gameInstance.KillCharacter();
 	}

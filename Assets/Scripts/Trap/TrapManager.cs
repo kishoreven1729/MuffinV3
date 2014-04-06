@@ -103,5 +103,29 @@ public class TrapManager : MonoBehaviour
 			trap.SendMessage("RestartTimer", SendMessageOptions.DontRequireReceiver);
 		}
 	}
+
+	public void DestroyAllTraps()
+	{
+		try
+		{
+			foreach(Transform trap in trapsCollection.Values)
+			{
+				Destroy(trap.gameObject);
+			}
+			
+			trapsCollection.Clear();
+		}
+		catch(System.Exception ex)
+		{
+			Debug.Log("TrapManager-DestroyAllTraps: \n" + ex.Message);
+		}
+	}
+
+	public void ResetTrapManager()
+	{
+		DestroyAllTraps();
+
+		availableTrapCount = _maxTrapCount;
+	}
 	#endregion
 }

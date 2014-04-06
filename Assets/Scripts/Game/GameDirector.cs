@@ -70,6 +70,11 @@ public class GameDirector : MonoBehaviour
 	{
 		try
 		{
+			if(character != null)
+			{
+				KillCharacter();
+			}
+
 			character = Instantiate(characterPrefab, _initialCharacterPosition, _initialCharacterRotation) as Transform;
 			character.name = "Character";
 
@@ -93,6 +98,17 @@ public class GameDirector : MonoBehaviour
 		{
 			Debug.Log("GameDirector-KillCharacter: \n" + ex.Message);
 		}
+	}
+
+	public void ResetGame()
+	{
+		SpawnCharacter();
+
+		EnemySpawnManager.enemySpawnManagerInstance.ResetSpawnManager();
+
+		PowerupManager.powerupManagerInstance.ResetPowerups();
+
+		TrapManager.trapManagerInstance.ResetTrapManager();
 	}
 	#endregion
 

@@ -47,6 +47,8 @@ public class EnemySpawnManager : MonoBehaviour
 		_enemyLevel = 1;
 		_maxEnemyLevel = enemyPrefabs.Length;
 
+		_leftOverTime = spawnInterval;
+
 		enemyCollection = new Dictionary<string, Transform>();
 
 		try
@@ -146,10 +148,12 @@ public class EnemySpawnManager : MonoBehaviour
 	{
 		_isSpawning = true;
 
-		_spawnTimer = Time.time + _leftOverTime;
+		_spawnTimer = Time.time + spawnInterval;
 
-		if(isFreeze == false)
+		if(isFreeze == true)
 		{
+			_spawnTimer = Time.time + _leftOverTime;
+
 			ResumeAllEnemies();
 		}
 	}
@@ -229,6 +233,15 @@ public class EnemySpawnManager : MonoBehaviour
 		{
 			_enemyLevel = _maxEnemyLevel;
 		}
+	}
+
+	public void ResetSpawnManager()
+	{
+		KillAllEnemies();
+
+		_enemyLevel = 1;
+
+		ResumeSpawning();
 	}
 	#endregion
 }

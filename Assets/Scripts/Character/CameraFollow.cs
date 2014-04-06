@@ -104,11 +104,14 @@ public class CameraFollow : MonoBehaviour
 			{
 				InitializeCamera();
 
+				/*Allow Camera Movement*/
+				_hasCharacterLoaded = GameDirector.gameInstance.characterLoaded;
+
 				/*Start the Spawn Manager*/
 				EnemySpawnManager.enemySpawnManagerInstance.ResumeSpawning();
 
-				/*Allow Camera Movement*/
-				_hasCharacterLoaded = GameDirector.gameInstance.characterLoaded;
+				/*Start Powerup Generator*/
+				PowerupManager.powerupManagerInstance.ResumePowerupGeneration();
 			}
 		}
 	}

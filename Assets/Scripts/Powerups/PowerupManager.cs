@@ -45,7 +45,7 @@ public class PowerupManager : MonoBehaviour
 
 	void Start() 
 	{	
-		_shouldGeneratePowerup = true;
+		_shouldGeneratePowerup = false;
 
 		_distanceToTrapThreshold = 1.5f;
 
@@ -66,8 +66,6 @@ public class PowerupManager : MonoBehaviour
 		{
 			Debug.Log("PowerupManager-Start: \n" + ex.Message); 
 		}
-
-		_generatorTimer = Time.time + generatorTimeInterval;
 	}
 	#endregion
 	
@@ -232,15 +230,20 @@ public class PowerupManager : MonoBehaviour
 		}
 	}
 
-	public void ResumePowerupGeneration()
+	public void ResumePowerupGeneration(bool isFreeze = false)
 	{
 		_shouldGeneratePowerup = true;
 
-		_generatorTimer = _leftOverTime + Time.time;
+		_generatorTimer = Time.time + generatorTimeInterval;
 
-		foreach(Transform powerup in _powerupsCollection.Values)
+		if(isFreeze == true)
 		{
-			powerup.SendMessage("ResumePowerupTimer", SendMessageOptions.DontRequireReceiver);
+			_generatorTimer = _leftOverTime + Time.time;
+
+			foreach(Transform powerup in _powerupsCollection.Values)
+			{
+				powerup.SendMessage("ResumePowerupTimer", SendMessageOptions.DontRequireReceiver);
+			}
 		}
 	}
 
@@ -264,6 +267,13 @@ public class PowerupManager : MonoBehaviour
 		{
 			Debug.Log("PowerupManager-RemoveAllPowerups: \n" + ex.Message);
 		}
+	}
+
+	public void ResetPowerups()
+	{
+		RemoveAllPowerups();
+
+		ResumePowerupGeneration();
 	}
 	#endregion
 
