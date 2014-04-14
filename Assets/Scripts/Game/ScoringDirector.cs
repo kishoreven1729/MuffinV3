@@ -66,7 +66,7 @@ public class ScoringDirector : MonoBehaviour
 		return Mathf.RoundToInt(_survivalTime);
 	}
 
-	public void StartScoring()
+	public void ResumeScoring()
 	{
 		_isScoringPaused = false;
 	}

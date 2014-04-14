@@ -1,4 +1,4 @@
-﻿#region References
+#region References
 using UnityEngine;
 using System.Collections;
 #endregion
@@ -115,7 +115,7 @@ public class CameraFollow : MonoBehaviour
 
 				GUIManager.guiInstance.InitializeGUI();
 
-				ScoringDirector.scoringInstance.StartScoring();
+				ScoringDirector.scoringInstance.ResumeScoring();
 			}
 		}
 	}

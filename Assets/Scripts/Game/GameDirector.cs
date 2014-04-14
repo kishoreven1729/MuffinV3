@@ -62,6 +62,14 @@ public class GameDirector : MonoBehaviour
 		{
 			ResetGame();
 		}
+		if(Input.GetKeyDown(KeyCode.P))
+		{
+			PauseGame();
+		}
+		if(Input.GetKeyDown(KeyCode.O))
+		{
+			ResumeGame();
+		}
 	}
 	#endregion
 
@@ -112,6 +120,32 @@ public class GameDirector : MonoBehaviour
 
 		ScoringDirector.scoringInstance.ResetScoring();
 	}
+
+	public void PauseGame()
+	{
+		character.SendMessage("ToggleCharacterMovement", SendMessageOptions.DontRequireReceiver);
+
+		EnemySpawnManager.enemySpawnManagerInstance.PauseSpawning(true);
+		
+		PowerupManager.powerupManagerInstance.PausePowerupGeneration(true);
+		
+		TrapManager.trapManagerInstance.PauseTrapTimers();
+		
+		ScoringDirector.scoringInstance.PauseScoring();
+	}
+
+	public void ResumeGame()
+	{
+		character.SendMessage("ToggleCharacterMovement", SendMessageOptions.DontRequireReceiver);
+		
+		EnemySpawnManager.enemySpawnManagerInstance.ResumeSpawning(true);
+		
+		PowerupManager.powerupManagerInstance.ResumePowerupGeneration(true);
+		
+		TrapManager.trapManagerInstance.ResumeTrapTimers();
+		
+		ScoringDirector.scoringInstance.ResumeScoring();
+	}                     
 	#endregion
 
 	#region Event Handlers

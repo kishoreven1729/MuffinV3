@@ -136,11 +136,11 @@ public class EnemySpawnManager : MonoBehaviour
 	{
 		_isSpawning = false;
 
-		_leftOverTime = _spawnTimer - Time.time;
-
-		if(isFreeze == false)
+		if(isFreeze == true)
 		{
 			PauseAllEnemies();
+
+			_leftOverTime = _spawnTimer - Time.time;
 		}
 	}
 

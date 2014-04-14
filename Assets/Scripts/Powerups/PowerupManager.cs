@@ -218,15 +218,18 @@ public class PowerupManager : MonoBehaviour
 		return powerupLocation;
 	}
 
-	public void PausePowerupGeneration()
+	public void PausePowerupGeneration(bool isFreeze = false)
 	{
 		_shouldGeneratePowerup = false;
-
-		_leftOverTime = _generatorTimer - Time.time;
 
 		foreach(Transform powerup in _powerupsCollection.Values)
 		{
 			powerup.SendMessage("PausePowerupTimer", SendMessageOptions.DontRequireReceiver);
+		}
+
+		if(isFreeze == true)
+		{
+			_leftOverTime = _generatorTimer - Time.time;
 		}
 	}
 
