@@ -23,6 +23,8 @@ public class CharacterExplosion : MonoBehaviour
 		_impactTimer = Time.time + _impactTime;
 
 		_isPaused = false;
+
+		Debug.Log("Setup the explosion");
 	}
 
 	void Start () 
