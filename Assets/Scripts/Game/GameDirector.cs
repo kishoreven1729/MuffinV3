@@ -51,7 +51,7 @@ public class GameDirector : MonoBehaviour
 		_initialCharacterPosition = new Vector3(-1.5f, 0.0f, -2.2f);
 		_initialCharacterRotation = Quaternion.AngleAxis(-180.0f, Vector3.up);
 
-		SpawnCharacter();
+		ResetGame();
 	}
 	#endregion
 	
@@ -60,7 +60,7 @@ public class GameDirector : MonoBehaviour
 	{	
 		if(Input.GetKeyDown(KeyCode.J))
 		{
-			SpawnCharacter();
+			ResetGame();
 		}
 	}
 	#endregion

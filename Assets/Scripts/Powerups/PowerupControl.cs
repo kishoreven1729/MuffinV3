@@ -75,13 +75,13 @@ public class PowerupControl : MonoBehaviour
 						RemovePowerup();
 					}
 				}
-				else
+				/*else
 				{
 					if(_isPowerupTaken == true)
 					{
 						if(Time.time > _powerupExpiryTimer)
 						{
-							/* Send UI Message */
+							// Send UI Message 
 
 							if(PowerupManager.powerupManagerInstance.availablePowerupType != PowerupManager.PowerupType.None)
 							{
@@ -89,7 +89,7 @@ public class PowerupControl : MonoBehaviour
 							}
 						}
 					}
-				}
+				}*/
 			}
 		}
 	}
