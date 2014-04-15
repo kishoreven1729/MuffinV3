@@ -51,7 +51,8 @@ public class GameDirector : MonoBehaviour
 		_initialCharacterPosition = new Vector3(-1.5f, 0.0f, -2.2f);
 		_initialCharacterRotation = Quaternion.AngleAxis(-180.0f, Vector3.up);
 
-		ResetGame();
+//		ResetGame();
+		GUIManager.guiInstance.ShowStartPanel();
 	}
 	#endregion
 	
@@ -123,6 +124,8 @@ public class GameDirector : MonoBehaviour
 
 	public void PauseGame()
 	{
+        print("GameDirector : Game Paused");
+
 		character.SendMessage("ToggleCharacterMovement", SendMessageOptions.DontRequireReceiver);
 
 		EnemySpawnManager.enemySpawnManagerInstance.PauseSpawning(true);
@@ -154,6 +157,11 @@ public class GameDirector : MonoBehaviour
 		if(isGameStartAnimation == true)
 		{
 			characterLoaded = true;
+			GUIManager.guiInstance.ShowInGamePanel();
+		}
+		else
+		{
+			GUIManager.guiInstance.ShowGameOverPanel();
 		}
 	}
 	#endregion
