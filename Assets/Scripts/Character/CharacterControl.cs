@@ -78,7 +78,8 @@ public class CharacterControl : MonoBehaviour
 
 			if(_canCharacterMove == true)
 			{
-				/*_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
+#if UNITY_ANDROID || UNITY_IOS
+				_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
 
 				if(Vector3.Distance(Vector3.zero, _characterMovementDirection) > _characterMovementThreshold)
 				{
@@ -103,8 +104,8 @@ public class CharacterControl : MonoBehaviour
 						newCharacterState = CharacterState.Powerup;
 						ApplyPowerup();
 					}
-				}*/
-
+				}
+#else 
 				if(Input.GetKey(KeyCode.A))
 				{
 					_characterMovementDirection.x = -1.0f;
@@ -141,6 +142,7 @@ public class CharacterControl : MonoBehaviour
 					newCharacterState = CharacterState.Powerup;
 					ApplyPowerup();
 				}
+#endif
 			}
 
 			if(newCharacterState == CharacterState.Walk)

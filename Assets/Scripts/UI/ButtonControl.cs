@@ -9,7 +9,8 @@ public class ButtonControl : MonoBehaviour
         Play,
         Credits,
         Pause,
-        Resume
+        Resume,
+		Share
     }
 
     public ButtonType type;
@@ -32,6 +33,9 @@ public class ButtonControl : MonoBehaviour
                 GameDirector.gameInstance.ResumeGame();
                 type = ButtonType.Pause;
                 break;
+		case ButtonType.Share:
+			ScoringDirector.scoringInstance.PostOnFacebook();
+			break;
         }
     }
 
