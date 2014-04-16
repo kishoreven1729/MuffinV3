@@ -1,0 +1,3 @@
+animation at 30F
+
+1-12 hold, 12-15 move, 15-27 hold, 27-30 move 
