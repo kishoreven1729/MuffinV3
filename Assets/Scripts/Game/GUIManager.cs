@@ -15,6 +15,7 @@ public class GUIManager : MonoBehaviour
 	public GameObject startPanel;
 	public GameObject inGamePanel;
 	public GameObject gameOverPanel;
+    public GameObject gamePausedPanel;
     public UILabel scoreLabel;
     public UISprite trap;
     public UISprite powerUp;
@@ -72,6 +73,7 @@ public class GUIManager : MonoBehaviour
 		startPanel.SetActive(true);
 		inGamePanel.SetActive(false);
 		gameOverPanel.SetActive(false);
+        gamePausedPanel.SetActive(false);
 	}
 
 	public void ShowInGamePanel()
@@ -79,6 +81,7 @@ public class GUIManager : MonoBehaviour
 		startPanel.SetActive(false);
 		inGamePanel.SetActive(true);
 		gameOverPanel.SetActive(false);
+        gamePausedPanel.SetActive(false);
 	}
 
 	public void ShowGameOverPanel()
@@ -86,7 +89,16 @@ public class GUIManager : MonoBehaviour
 		startPanel.SetActive(false);
 		inGamePanel.SetActive(false);
 		gameOverPanel.SetActive(true);
+        gamePausedPanel.SetActive(false);
 	}
+
+    public void ShowGamePausedPanel()
+    {
+        startPanel.SetActive(false);
+        inGamePanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        gamePausedPanel.SetActive(true);
+    }
 
     void UpdateScore()
     {
