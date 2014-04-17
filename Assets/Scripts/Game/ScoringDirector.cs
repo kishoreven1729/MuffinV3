@@ -1,6 +1,9 @@
 ﻿#region References
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Facebook.MiniJSON;
+using System;
 #endregion
 
 public class ScoringDirector : MonoBehaviour 
@@ -20,6 +23,10 @@ public class ScoringDirector : MonoBehaviour
 	#region Public Variables
 	public static ScoringDirector 	scoringInstance;
 	public long 					gameScore;
+	#endregion
+
+	#region Facebook Variables
+	private Dictionary<string, string> profile;
 	#endregion
 
 	#region Constructor
@@ -101,9 +108,12 @@ public class ScoringDirector : MonoBehaviour
 	
 	private void OnInitComplete()
 	{
-		Debug.Log("FB.Init completed: Is user logged in? " + FB.IsLoggedIn);
-		
-		FB.Login("email,publish_actions", LoginCallback);
+		//Debug.Log("FB.Init completed: Is user logged in? " + FB.IsLoggedIn);
+
+		if(FB.IsLoggedIn == false)
+		{
+			FB.Login("email,publish_actions", LoginCallback);
+		}
 	}
 	
 	private void OnHideUnity(bool isGameShown)
@@ -123,6 +133,43 @@ public class ScoringDirector : MonoBehaviour
 		{
 			lastResponse = "Login was successful!";
 		}*/
+
+		OnLoggedIn();
+	}
+
+	void OnLoggedIn()
+	{
+		Debug.Log("Logged in. ID: " + FB.UserId);
+		
+		// Reqest player info and profile picture
+		FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, APICallback);
+	}
+
+	void APICallback(FBResult result)
+	{
+		if (result.Error != null)
+		{
+			Debug.LogError(result.Error);
+			// Let's just try again
+			FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, APICallback);
+			return;
+		}
+		
+		profile = DeserializeJSONProfile(result.Text);
+
+		Debug.Log("Logged in User: " + profile["first_name"]);
+	}
+
+	public static Dictionary<string, string> DeserializeJSONProfile(string response)
+	{
+		var responseObject = Json.Deserialize(response) as Dictionary<string, object>;
+		object nameH;
+		var profile = new Dictionary<string, string>();
+		if (responseObject.TryGetValue("first_name", out nameH))
+		{
+			profile["first_name"] = (string)nameH;
+		}
+		return profile;
 	}
 	
 	public void PostOnFacebook()
