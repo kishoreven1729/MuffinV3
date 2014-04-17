@@ -13,8 +13,7 @@ public class CrumbsManager : MonoBehaviour
 	#region Public Variables
 	public Transform	crumbPrefab;
 
-	public int			minNumberOfCrumbs;
-	public int			maxNumberOfCrumbs;
+	public int			numberOfCrumbs;
 
 	public static CrumbsManager crumbsInstance;
 	#endregion
@@ -42,8 +41,6 @@ public class CrumbsManager : MonoBehaviour
 	public void SprinkleCrumbs()
 	{
 		DestroyAllCrumbs();
-
-		int numberOfCrumbs = Random.Range(minNumberOfCrumbs, maxNumberOfCrumbs);
 
 		for(int index = 0; index < numberOfCrumbs; index ++)
 		{

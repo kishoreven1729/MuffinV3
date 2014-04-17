@@ -130,9 +130,11 @@ public class ScoringDirector : MonoBehaviour
 		if(FB.IsLoggedIn)
 		{
 			FB.Feed(
-				linkName: "Test post from Muffin Morphosis",
-				linkCaption: "I just scored " + gameScore + " on the test version of Muffin Morphosis"
+				linkCaption: "I just scored " + gameScore + " on the test version of Muffin Morphosis",
+				linkName: "Test post from Muffin Morphosis"
 				);
+
+			Debug.Log("Posting On facebook");
 		}
 	}
 	#endregion
