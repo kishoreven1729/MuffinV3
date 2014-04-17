@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 998faf951585145e1a763026102dd566
 ModelImporter:
-  serializedVersion: 15
+  serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
     100002: joint10
@@ -50,6 +50,7 @@ ModelImporter:
     2300008: polySurface5 3
     2300010: polySurface5 4
     2300012: polySurface5 5
+    2300014: //RootNode
     3300000: polySurface1
     3300002: polySurface5
     3300004: polySurface5 1
@@ -57,6 +58,7 @@ ModelImporter:
     3300008: polySurface5 3
     3300010: polySurface5 4
     3300012: polySurface5 5
+    3300014: //RootNode
     4300000: polySurface1
     4300002: polySurface5
     4300004: polySurface5
@@ -64,6 +66,7 @@ ModelImporter:
     4300008: polySurface5
     4300010: polySurface5
     4300012: polySurface5
+    4300014: geo_jamJar
     7400000: Take 001
     9500000: //RootNode
     11100000: //RootNode
@@ -184,4 +187,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 1
+  additionalBone: 0
   userData: 

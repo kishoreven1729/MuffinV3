@@ -27,11 +27,13 @@ public class ButtonControl : MonoBehaviour
                 break;
             case ButtonType.Pause:
                 GameDirector.gameInstance.PauseGame();
-                type = ButtonType.Resume;
+                GUIManager.guiInstance.ShowGamePausedPanel();
+//                type = ButtonType.Resume;
                 break;
             case ButtonType.Resume:
                 GameDirector.gameInstance.ResumeGame();
-                type = ButtonType.Pause;
+                GUIManager.guiInstance.ShowInGamePanel();
+//                type = ButtonType.Pause;
                 break;
 		case ButtonType.Share:
 			ScoringDirector.scoringInstance.PostOnFacebook();
