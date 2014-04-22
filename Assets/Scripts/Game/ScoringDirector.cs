@@ -26,13 +26,16 @@ public class ScoringDirector : MonoBehaviour
 	#endregion
 
 	#region Facebook Variables
-	private Dictionary<string, string> profile;
+	private Dictionary<string, string> 	profile;
+	private string 						facebookName;
 	#endregion
 
 	#region Constructor
 	void Awake()
 	{
 		scoringInstance = this;
+
+		facebookName = "none";
 
 		CallFBInit();
 	}
@@ -66,6 +69,7 @@ public class ScoringDirector : MonoBehaviour
 
 	void OnGUI()
 	{
+		GUI.Label(new Rect(30, 30, 150, 150), "Name: " + facebookName);
 	}
 	#endregion
 
@@ -157,7 +161,9 @@ public class ScoringDirector : MonoBehaviour
 		
 		profile = DeserializeJSONProfile(result.Text);
 
-		Debug.Log("Logged in User: " + profile["first_name"]);
+		facebookName = profile["first_name"];
+
+		Debug.Log("Logged in User: " + facebookName);
 	}
 
 	public static Dictionary<string, string> DeserializeJSONProfile(string response)
