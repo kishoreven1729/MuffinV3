@@ -184,7 +184,8 @@ public class ScoringDirector : MonoBehaviour
 		{
 			FB.Feed(
 				linkCaption: "I just scored " + gameScore + " on the test version of Muffin Morphosis",
-				linkName: "Test post from Muffin Morphosis"
+				linkName: "Test post from Muffin Morphosis",
+				picture: "http://kishorevenkateshan.com/Downloads/MuffinSplashScreen.png"
 				);
 
 			Debug.Log("Posting On facebook");
