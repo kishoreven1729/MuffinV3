@@ -11,6 +11,8 @@ public class EnemyControl : MonoBehaviour
 	private bool			_enableEnemy;
 
 	private bool			_glueEnemy;
+
+	private Animator		_enemyAnimator;
 	#endregion
 
 	#region Public Variables
@@ -25,6 +27,8 @@ public class EnemyControl : MonoBehaviour
 		try
 		{
 			_enemyNavMeshAgent = GetComponent<NavMeshAgent>();
+
+			_enemyAnimator = transform.GetChild(0).GetComponent<Animator>();
 		}
 		catch (System.Exception ex)
 		{
@@ -65,6 +69,8 @@ public class EnemyControl : MonoBehaviour
 		{
 			_enemyNavMeshAgent.velocity = Vector3.zero;
 		}
+
+		_enemyAnimator.SetFloat("Velocity", _enemyNavMeshAgent.velocity.magnitude);
 	}
 	#endregion
 

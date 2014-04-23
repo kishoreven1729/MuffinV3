@@ -59,7 +59,7 @@ ModelImporter:
     3300000: go_eyes
     4300000: go_reat_body
     4300002: go_eyes
-    7400000: Take 001
+    7400000: EvilRatRun
     9500000: //RootNode
     13700000: go_reat_body
   materials:
@@ -78,7 +78,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: EvilRatRun
       takeName: Take 001
       firstFrame: 1
       lastFrame: 25

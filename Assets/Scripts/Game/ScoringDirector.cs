@@ -110,7 +110,7 @@ public class ScoringDirector : MonoBehaviour
 		FB.Init(OnInitComplete, OnHideUnity);
 	}
 	
-	private void OnInitComplete()
+	void OnInitComplete()
 	{
 		//Debug.Log("FB.Init completed: Is user logged in? " + FB.IsLoggedIn);
 
@@ -120,7 +120,7 @@ public class ScoringDirector : MonoBehaviour
 		}
 	}
 	
-	private void OnHideUnity(bool isGameShown)
+	void OnHideUnity(bool isGameShown)
 	{
 		Debug.Log("Is game showing? " + isGameShown);
 	}
@@ -138,24 +138,24 @@ public class ScoringDirector : MonoBehaviour
 			lastResponse = "Login was successful!";
 		}*/
 
-		OnLoggedIn();
+		ProfileFetch();
 	}
 
-	void OnLoggedIn()
+	void ProfileFetch()
 	{
 		Debug.Log("Logged in. ID: " + FB.UserId);
 		
 		// Reqest player info and profile picture
-		FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, APICallback);
+		FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, ProfileFetchCallback);
 	}
 
-	void APICallback(FBResult result)
+	void ProfileFetchCallback(FBResult result)
 	{
 		if (result.Error != null)
 		{
 			Debug.LogError(result.Error);
 			// Let's just try again
-			FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, APICallback);
+			FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, ProfileFetchCallback);
 			return;
 		}
 		
@@ -166,7 +166,7 @@ public class ScoringDirector : MonoBehaviour
 		Debug.Log("Logged in User: " + facebookName);
 	}
 
-	public static Dictionary<string, string> DeserializeJSONProfile(string response)
+	public Dictionary<string, string> DeserializeJSONProfile(string response)
 	{
 		var responseObject = Json.Deserialize(response) as Dictionary<string, object>;
 		object nameH;
@@ -183,13 +183,35 @@ public class ScoringDirector : MonoBehaviour
 		if(FB.IsLoggedIn)
 		{
 			FB.Feed(
-				linkCaption: "I just scored " + gameScore + " on the test version of Muffin Morphosis",
-				linkName: "Test post from Muffin Morphosis",
-				picture: "http://kishorevenkateshan.com/Downloads/MuffinSplashScreen.png"
+				linkCaption: "I just scored " + gameScore + " on the test version of Muffin Morphosis!",
+				linkName: "Muffin Morphosis - Quest for more crumbs",
+				picture: "http://kishorevenkateshan.com/Downloads/MuffinSplashScreen.png",
+				callback: OnPostComplete
 				);
 
 			Debug.Log("Posting On facebook");
 		}
+	}
+
+	void OnPostComplete(FBResult response)
+	{
+		Debug.Log("Facebook Post Compelete");
+	}
+
+	public void PostChallenge()
+	{
+		if(FB.IsLoggedIn)
+		{
+			FB.AppRequest(
+				message: "Do you think you can surpass my score," + gameScore + "? ",
+				callback: OnPostChallengeComplete
+				);
+		}
+	}
+
+	void OnPostChallengeComplete(FBResult response)
+	{
+		Debug.Log("Facebook Post Challenge Compelete");
 	}
 	#endregion
 }

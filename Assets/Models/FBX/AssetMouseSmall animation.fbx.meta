@@ -40,7 +40,7 @@ ModelImporter:
     400032: go_mouse01
     400034: grp_mouse
     4300000: go_mouse01
-    7400000: Take 001
+    7400000: MouseSmallRun
     9500000: //RootNode
     13700000: go_mouse01
   materials:
@@ -57,7 +57,69 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: MouseSmallRun
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: be_mouseMain
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin/bn_mouseSpin1
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin/bn_mouseSpin1/bn_mouseHad
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin/bn_mouseSpin1/bn_mouseHad/bn_L_mouseEyer
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin/bn_mouseSpin1/bn_mouseHad/bn_L_mouseEyer/bn_L_mouseEyerTip
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin/bn_mouseSpin1/bn_mouseHad/bn_mouseNows
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin/bn_mouseSpin1/bn_mouseHad/bn_R_mouseEyer
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseSpin/bn_mouseSpin1/bn_mouseHad/bn_R_mouseEyer/bn_R_mouseEyerTip
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseTeial01
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseTeial01/bn_mouseTeial02
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseTeial01/bn_mouseTeial02/bn_mouseTeial03
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseTeial01/bn_mouseTeial02/bn_mouseTeial03/bn_mouseTeial04
+        weight: 1
+      - path: be_mouseMain/bn_mouseBody/bn_mouseTeial01/bn_mouseTeial02/bn_mouseTeial03/bn_mouseTeial04/bn_mouseTeial05
+        weight: 1
+      - path: grp_mouse
+        weight: 1
+      - path: grp_mouse/go_mouse01
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
