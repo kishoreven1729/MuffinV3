@@ -126,6 +126,8 @@ public class GameDirector : MonoBehaviour
 	{
         print("GameDirector : Game Paused");
 
+		Time.timeScale = 0.0f;
+
 		character.SendMessage("ToggleCharacterMovement", SendMessageOptions.DontRequireReceiver);
 
 		EnemySpawnManager.enemySpawnManagerInstance.PauseSpawning(true);
@@ -161,7 +163,7 @@ public class GameDirector : MonoBehaviour
 		}
 		else
 		{
-			GUIManager.guiInstance.ShowGameOverPanel();
+			//GUIManager.guiInstance.ShowGameOverPanel();
 		}
 	}
 	#endregion

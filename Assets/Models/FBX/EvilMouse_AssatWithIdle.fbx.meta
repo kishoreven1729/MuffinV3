@@ -1,56 +1,60 @@
 fileFormatVersion: 2
-guid: a3c1d4127526e4f659dabf256a367196
+guid: 4298df227f1b14dffa8d855b659211b7
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: chast
-    100002: //RootNode
-    100004: go_eyes
-    100006: go_reat_body
-    100008: had
-    100010: hip
-    100012: joint12
-    100014: joint13
-    100016: L_eyer1
-    100018: l_eyer2
-    100020: L_eyertip
-    100022: neck
-    100024: nows
-    100026: R_eyer1
-    100028: R_eyer2
-    100030: R_eyertip
-    100032: root_mouse
-    100034: till02
-    100036: till03
-    100038: till04
-    100040: till05
-    100042: till06
-    100044: till07
-    100046: till08
-    400000: chast
-    400002: //RootNode
-    400004: go_eyes
-    400006: go_reat_body
-    400008: had
-    400010: hip
-    400012: joint12
-    400014: joint13
-    400016: L_eyer1
-    400018: l_eyer2
-    400020: L_eyertip
-    400022: neck
-    400024: nows
-    400026: R_eyer1
-    400028: R_eyer2
-    400030: R_eyertip
-    400032: root_mouse
-    400034: till02
-    400036: till03
-    400038: till04
-    400040: till05
-    400042: till06
-    400044: till07
-    400046: till08
+    100000: bottom
+    100002: chast
+    100004: //RootNode
+    100006: go_eyes
+    100008: go_reat_body
+    100010: grp_rat
+    100012: had
+    100014: hip
+    100016: joint12
+    100018: joint13
+    100020: L_eyer1
+    100022: l_eyer2
+    100024: L_eyertip
+    100026: neck
+    100028: nows
+    100030: R_eyer1
+    100032: R_eyer2
+    100034: R_eyertip
+    100036: root_mouse
+    100038: till02
+    100040: till03
+    100042: till04
+    100044: till05
+    100046: till06
+    100048: till07
+    100050: till08
+    400000: bottom
+    400002: chast
+    400004: //RootNode
+    400006: go_eyes
+    400008: go_reat_body
+    400010: grp_rat
+    400012: had
+    400014: hip
+    400016: joint12
+    400018: joint13
+    400020: L_eyer1
+    400022: l_eyer2
+    400024: L_eyertip
+    400026: neck
+    400028: nows
+    400030: R_eyer1
+    400032: R_eyer2
+    400034: R_eyertip
+    400036: root_mouse
+    400038: till02
+    400040: till03
+    400042: till04
+    400044: till05
+    400046: till06
+    400048: till07
+    400050: till08
     2300000: go_eyes
     3300000: go_eyes
     4300000: go_reat_body
@@ -99,51 +103,55 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: go_reat_body
+      - path: bottom
         weight: 1
-      - path: root_mouse
+      - path: grp_rat
         weight: 1
-      - path: root_mouse/hip
+      - path: grp_rat/go_reat_body
         weight: 1
-      - path: root_mouse/hip/chast
+      - path: grp_rat/root_mouse
         weight: 1
-      - path: root_mouse/hip/chast/neck
+      - path: grp_rat/root_mouse/hip
         weight: 1
-      - path: root_mouse/hip/chast/neck/had
+      - path: grp_rat/root_mouse/hip/chast
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/go_eyes
+      - path: grp_rat/root_mouse/hip/chast/neck
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/L_eyer1
+      - path: grp_rat/root_mouse/hip/chast/neck/had
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/L_eyer1/l_eyer2
+      - path: grp_rat/root_mouse/hip/chast/neck/had/go_eyes
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/L_eyer1/l_eyer2/L_eyertip
+      - path: grp_rat/root_mouse/hip/chast/neck/had/L_eyer1
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/nows
+      - path: grp_rat/root_mouse/hip/chast/neck/had/L_eyer1/l_eyer2
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/nows/joint13
+      - path: grp_rat/root_mouse/hip/chast/neck/had/L_eyer1/l_eyer2/L_eyertip
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/R_eyer1
+      - path: grp_rat/root_mouse/hip/chast/neck/had/nows
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/R_eyer1/R_eyer2
+      - path: grp_rat/root_mouse/hip/chast/neck/had/nows/joint13
         weight: 1
-      - path: root_mouse/hip/chast/neck/had/R_eyer1/R_eyer2/R_eyertip
+      - path: grp_rat/root_mouse/hip/chast/neck/had/R_eyer1
         weight: 1
-      - path: root_mouse/hip/joint12
+      - path: grp_rat/root_mouse/hip/chast/neck/had/R_eyer1/R_eyer2
         weight: 1
-      - path: root_mouse/hip/joint12/till02
+      - path: grp_rat/root_mouse/hip/chast/neck/had/R_eyer1/R_eyer2/R_eyertip
         weight: 1
-      - path: root_mouse/hip/joint12/till02/till03
+      - path: grp_rat/root_mouse/hip/joint12
         weight: 1
-      - path: root_mouse/hip/joint12/till02/till03/till04
+      - path: grp_rat/root_mouse/hip/joint12/till02
         weight: 1
-      - path: root_mouse/hip/joint12/till02/till03/till04/till05
+      - path: grp_rat/root_mouse/hip/joint12/till02/till03
         weight: 1
-      - path: root_mouse/hip/joint12/till02/till03/till04/till05/till06
+      - path: grp_rat/root_mouse/hip/joint12/till02/till03/till04
         weight: 1
-      - path: root_mouse/hip/joint12/till02/till03/till04/till05/till06/till07
+      - path: grp_rat/root_mouse/hip/joint12/till02/till03/till04/till05
         weight: 1
-      - path: root_mouse/hip/joint12/till02/till03/till04/till05/till06/till07/till08
+      - path: grp_rat/root_mouse/hip/joint12/till02/till03/till04/till05/till06
+        weight: 1
+      - path: grp_rat/root_mouse/hip/joint12/till02/till03/till04/till05/till06/till07
+        weight: 1
+      - path: grp_rat/root_mouse/hip/joint12/till02/till03/till04/till05/till06/till07/till08
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}

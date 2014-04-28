@@ -9,8 +9,6 @@ public class CharacterExplosion : MonoBehaviour
 	private float _impactTime;
 	private float _impactTimer;
 	private float _leftOverTime;
-
-	private bool  _isPaused;
 	#endregion
 
 	#region Public Variables
@@ -21,8 +19,6 @@ public class CharacterExplosion : MonoBehaviour
 	{
 		_impactTime = 0.6f;
 		_impactTimer = Time.time + _impactTime;
-
-		_isPaused = false;
 
 		Debug.Log("Setup the explosion");
 	}
@@ -35,12 +31,9 @@ public class CharacterExplosion : MonoBehaviour
 	#region Loop
 	void Update () 
 	{
-		if(_isPaused == false)
+		if(Time.time > _impactTimer)
 		{
-			if(Time.time > _impactTimer)
-			{
-				gameObject.SetActive(false);
-			}
+			gameObject.SetActive(false);
 		}
 	}
 
@@ -50,22 +43,6 @@ public class CharacterExplosion : MonoBehaviour
 		{
 			otherCollider.SendMessage("KillByTrap", SendMessageOptions.DontRequireReceiver);
 		}
-	}
-	#endregion
-
-	#region Methods
-	public void PauseExplosion()
-	{
-		_leftOverTime = _impactTimer - Time.time;
-
-		_isPaused = true;
-	}
-
-	public void ResumeExplosion()
-	{
-		_isPaused = false;
-
-		_impactTimer = Time.time + _leftOverTime;
 	}
 	#endregion
 }

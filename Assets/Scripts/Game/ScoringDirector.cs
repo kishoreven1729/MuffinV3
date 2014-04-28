@@ -18,16 +18,24 @@ public class ScoringDirector : MonoBehaviour
 	private float					_survivalTime;
 
 	private bool					_isScoringPaused;
+
+	private long					_lastChunkValue;
+	private long					_lastChunkCount;
+
+	private long					_upgradeRatChunkCount;
+	private long					_upgradeRatSpeedsChunkCount;
+	private long					_powerupThreshold;
 	#endregion
 
 	#region Public Variables
 	public static ScoringDirector 	scoringInstance;
+
 	public long 					gameScore;
 	#endregion
 
 	#region Facebook Variables
-	private Dictionary<string, string> 	profile;
-	private string 						facebookName;
+	private Dictionary<string, string> 	_profile;
+	public string 						facebookName;
 	#endregion
 
 	#region Constructor
@@ -51,6 +59,15 @@ public class ScoringDirector : MonoBehaviour
 		_isScoringPaused = true;
 
 		gameScore = 0;
+
+		_lastChunkValue = 0;
+
+		_lastChunkCount = 0;
+
+		/*Threshold Setup*/
+		_powerupThreshold = 30;
+		_upgradeRatChunkCount = 10;
+		_upgradeRatSpeedsChunkCount = 20;
 	}
 	#endregion
 	
@@ -64,6 +81,8 @@ public class ScoringDirector : MonoBehaviour
 			_timeScore = TimeScore();
 
 			gameScore = _timeScore + _cummulativeKillScore;
+
+			UpdateChunkCount();
 		}
 	}
 
@@ -101,6 +120,33 @@ public class ScoringDirector : MonoBehaviour
 		_survivalTime = 0.0f;
 		_timeScore = 0;
 		_cummulativeKillScore = 0;
+
+		_lastChunkValue = 0;
+		_lastChunkCount = 0;
+	}
+	#endregion
+
+	#region Powerup Updates
+	public void UpdateChunkCount()
+	{
+		if(gameScore - _lastChunkValue > _powerupThreshold)
+		{
+			_lastChunkCount ++;
+
+			_lastChunkValue = _powerupThreshold * _lastChunkCount;
+
+			PowerupManager.powerupManagerInstance.GeneratePowerup();
+
+			if(_lastChunkCount > _upgradeRatChunkCount)
+			{
+				EnemySpawnManager.enemySpawnManagerInstance.UpEnemyLevel();
+			}
+		}
+	}
+
+	public void AdjustPowerupThreshold(long cost)
+	{
+		_powerupThreshold += cost;
 	}
 	#endregion
 
@@ -159,9 +205,9 @@ public class ScoringDirector : MonoBehaviour
 			return;
 		}
 		
-		profile = DeserializeJSONProfile(result.Text);
+		_profile = DeserializeJSONProfile(result.Text);
 
-		facebookName = profile["first_name"];
+		facebookName = _profile["first_name"];
 
 		Debug.Log("Logged in User: " + facebookName);
 	}

@@ -6,10 +6,6 @@ using System.Collections;
 public class CrumbsControl : MonoBehaviour 
 {
 	#region Private Variables
-	private float 		_crumbsTimer;
-	private float		_crumbsExpiryTime;
-	private float		_leftOverTime;
-	private bool		_isPaused;
 	#endregion
 
 	#region Public Variables
@@ -18,31 +14,20 @@ public class CrumbsControl : MonoBehaviour
 	#region Constructor
 	void Awake()
 	{
-
+		Physics.IgnoreLayerCollision(9, 10);
+		Physics.IgnoreLayerCollision(10, 10);
 	}
 
 	void Start () 
 	{
-		_crumbsExpiryTime = 4.5f;
-
 		//rigidbody.AddForce(new Vector3(Random.Range(0.0f, 10.0f), Random.Range(50.0f, 100.0f), Random.Range(0.0f, 10.0f)));
-
-		_crumbsTimer = Time.time + _crumbsExpiryTime;
-
-		_isPaused = false;
 	}
 	#endregion
 	
 	#region Loop
 	void Update () 
 	{
-		if(_isPaused == false)
-		{
-			if(Time.time > _crumbsTimer)
-			{
-				DestroyCrumb();
-			}
-		}
+
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -57,33 +42,15 @@ public class CrumbsControl : MonoBehaviour
 
 	void OnTriggerEnter(Collider otherCollider)
 	{
-		if(_isPaused == false)
+		if(otherCollider.CompareTag("Enemy"))
 		{
-			if(otherCollider.CompareTag("Enemy"))
-			{
-				otherCollider.gameObject.SendMessage("KillByTrap", SendMessageOptions.DontRequireReceiver);
-
-				DestroyCrumb();
-			}
+			otherCollider.gameObject.SendMessage("KillByTrap", SendMessageOptions.DontRequireReceiver);
+			DestroyCrumb();
 		}
 	}
 	#endregion
 
 	#region Methods
-	public void PauseCrumbsTimer()
-	{
-		_isPaused = true;
-
-		_leftOverTime = _crumbsTimer - Time.time;
-	}
-
-	public void ResumeCrumbsTimer()
-	{
-		_isPaused = false;
-
-		_crumbsTimer = Time.time + _leftOverTime;
-	}
-
 	private void DestroyCrumb()
 	{
 		transform.gameObject.SetActive(false);

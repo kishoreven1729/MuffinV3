@@ -12,25 +12,37 @@ public class PowerupManager : MonoBehaviour
 		None,
 		CranberrySpin,
 		HoneyBlast,
-		Crumbs
+		ChocoRush
 	}
 	#endregion
 
 	#region Private Variables
+	/*
 	private bool 								_shouldGeneratePowerup;
 	private float								_generatorTimer;
+	private float								_leftOverTime;
+	*/
+
 	private int									_powerupTypesCount;
 	private Rect								_powerupSpawnBoundary;
 	private float								_distanceToTrapThreshold;
 
-	private float								_leftOverTime;
 	private Dictionary<string, Transform>		_powerupsCollection;
+
+	private PowerupIndexGenerator				_powerupIndexGenerator;
+	#endregion
+
+	#region Grid Variables
+	private Vector2								_gridDimensions;
+	private Vector3[,]							_powerupGrid;
+	private int 								_gridCountX = 6; 
+	private int 								_gridCountY = 4;
 	#endregion
 
 	#region Public Variables
 	public static PowerupManager 	powerupManagerInstance;
 
-	public float					generatorTimeInterval;
+	//public float					generatorTimeInterval;
 	public Transform				powerupPrefab;
 
 	public Transform				availablePowerup;
@@ -45,7 +57,7 @@ public class PowerupManager : MonoBehaviour
 
 	void Start() 
 	{	
-		_shouldGeneratePowerup = false;
+		//_shouldGeneratePowerup = false;
 
 		_distanceToTrapThreshold = 1.5f;
 
@@ -54,6 +66,8 @@ public class PowerupManager : MonoBehaviour
 		_powerupsCollection = new Dictionary<string, Transform>();
 
 		availablePowerupType = PowerupType.None;
+
+		_powerupIndexGenerator = new PowerupIndexGenerator(_powerupTypesCount);
 
 		try
 		{
@@ -66,13 +80,107 @@ public class PowerupManager : MonoBehaviour
 		{
 			Debug.Log("PowerupManager-Start: \n" + ex.Message); 
 		}
+
+		MakeGrid();
+	}
+	#endregion
+
+	#region Startup Methods
+	private void MakeGrid()
+	{
+		_gridDimensions = new Vector2(_powerupSpawnBoundary.width / _gridCountX, _powerupSpawnBoundary.height / _gridCountY);
+
+		_powerupGrid = new Vector3[_gridCountY, _gridCountX];
+
+		Vector3 initialLocation = new Vector3(_powerupSpawnBoundary.xMin + _gridDimensions.x / 2, 0.0f, _powerupSpawnBoundary.yMin + _gridDimensions.y / 2);
+
+		for(int x = 0; x < _gridCountY; x++)
+		{
+			for(int y = 0; y < _gridCountX; y++)
+			{
+				Vector3 gridLocation = initialLocation + new Vector3(_gridDimensions.x * y, 0.0f, _gridDimensions.y * x);
+
+				_powerupGrid[x,y] = gridLocation;
+			}
+		}
+	}
+
+	private Vector3 GetPowerupLocation()
+	{
+		Vector3 location = Vector3.zero;
+
+		Vector3 characterLocation = GameDirector.gameInstance.character.position;
+
+		int xIndex = 0, yIndex = 0;
+
+		if(characterLocation.x < _powerupSpawnBoundary.xMin)
+		{
+			xIndex = 0;
+		}
+		else if(characterLocation.x > _powerupSpawnBoundary.xMax)
+		{
+			xIndex = _gridCountY - 1;
+		}
+		else
+		{
+			float yDist = characterLocation.y - _powerupSpawnBoundary.yMin;
+
+			xIndex = (int) (yDist / _gridDimensions.y);
+		}
+
+		if(characterLocation.y < _powerupSpawnBoundary.yMin)
+		{
+			yIndex = 0;
+		}
+		else if(characterLocation.y > _powerupSpawnBoundary.yMax)
+		{
+			yIndex = _gridCountX - 1;
+		}
+		else
+		{
+			float xDist = characterLocation.x - _powerupSpawnBoundary.xMin;
+			
+			yIndex = (int) (xDist / _gridDimensions.x);
+		}
+
+		/*Find a random point around the character's location*/
+		List<int> possibleIndices = new List<int>();
+
+		int minIndexX = xIndex - 2, maxIndexX = xIndex + 2, minIndexY = yIndex - 2, maxIndexY = yIndex + 2;
+
+		if(minIndexX < 0)
+		{
+			minIndexX = 0;
+		}
+
+		if(maxIndexX >= _gridCountY)
+		{
+			maxIndexX = _gridCountY - 1;
+		}
+
+		if(minIndexY < 0)
+		{
+			minIndexY = 0;
+		}
+		
+		if(maxIndexY >= _gridCountX)
+		{
+			maxIndexY = _gridCountX - 1;
+		}
+
+		int randIndexX = Random.Range(minIndexX, maxIndexX + 1);
+		int randIndexY = Random.Range(minIndexY, maxIndexY + 1);
+
+		location = _powerupGrid[randIndexX, randIndexY];
+
+		return location;
 	}
 	#endregion
 	
 	#region Loop
 	void Update () 
 	{
-		if(Time.time > _generatorTimer && _shouldGeneratePowerup == true)
+		/*if(Time.time > _generatorTimer && _shouldGeneratePowerup == true)
 		{
 			_generatorTimer = Time.time + generatorTimeInterval;
 
@@ -84,28 +192,51 @@ public class PowerupManager : MonoBehaviour
 			{
 				AddPowerup(position, index);
 			}
-		}
+		}*/
 	}
 
 	void OnGUI()
 	{
 	}
+
+	void OnDrawGizmos()
+	{
+		for(int x = 0; x < _gridCountY; x++)
+		{
+			for(int y = 0; y < _gridCountX; y++)
+			{
+				//if(_powerupGrid != null)
+				//{
+				//	Gizmos.DrawSphere(_powerupGrid[x,y], 1.0f);
+				//}
+			}
+		}
+	}
 	#endregion
 
 	#region Methods
+	public void GeneratePowerup()
+	{
+		int index = ChoosePowerupIndex();
+		
+		//Vector3 position = ChoosePowerupLocation();
+		Vector3 position = GetPowerupLocation();
+		
+		if(index >= 0)
+		{
+			AddPowerup(position, index);
+		}
+	}
+
 	private int ChoosePowerupIndex()
 	{
 		int index = -1;
 
 		float shouldSpawnProbability = Random.Range(0.0f, 1.0f);
 
-		if(shouldSpawnProbability > 0.3f)
+		if(shouldSpawnProbability > 0.15f)
 		{
-			float value = Random.Range(0.0f, 1.0f);
-			
-			value *= _powerupTypesCount;
-			
-			index = (int)value;
+			index = _powerupIndexGenerator.GeneratePowerup();
 		}
 		else
 		{
@@ -136,7 +267,7 @@ public class PowerupManager : MonoBehaviour
 				powerupType = PowerupType.HoneyBlast;
 				break;
 			case 2:
-				powerupType = PowerupType.Crumbs;
+				powerupType = PowerupType.ChocoRush;
 				break;
 			}
 
@@ -220,30 +351,30 @@ public class PowerupManager : MonoBehaviour
 
 	public void PausePowerupGeneration(bool isFreeze = false)
 	{
-		_shouldGeneratePowerup = false;
+		//_shouldGeneratePowerup = false;
 
 		foreach(Transform powerup in _powerupsCollection.Values)
 		{
 			powerup.SendMessage("PausePowerupTimer", SendMessageOptions.DontRequireReceiver);
 		}
 
-		if(isFreeze == true)
+		/*if(isFreeze == true)
 		{
 			_leftOverTime = _generatorTimer - Time.time;
-		}
+		}*/
 	}
 
 	public void ResumePowerupGeneration(bool isFreeze = false)
 	{
-		_shouldGeneratePowerup = true;
+		/*_shouldGeneratePowerup = true;
 
-		_generatorTimer = Time.time + generatorTimeInterval;
+		_generatorTimer = Time.time + generatorTimeInterval;*/
 
 		availablePowerupType = PowerupType.None;
 
 		if(isFreeze == true)
 		{
-			_generatorTimer = _leftOverTime + Time.time;
+			//_generatorTimer = _leftOverTime + Time.time;
 
 			foreach(Transform powerup in _powerupsCollection.Values)
 			{
@@ -256,7 +387,7 @@ public class PowerupManager : MonoBehaviour
 	{
 		try
 		{
-			_shouldGeneratePowerup = false;
+			//_shouldGeneratePowerup = false;
 
 			foreach(Transform powerup in _powerupsCollection.Values)
 			{
@@ -278,7 +409,7 @@ public class PowerupManager : MonoBehaviour
 	{
 		RemoveAllPowerups();
 
-		ResumePowerupGeneration();
+		//ResumePowerupGeneration();
 	}
 	#endregion
 

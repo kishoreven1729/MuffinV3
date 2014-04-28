@@ -1,4 +1,4 @@
-﻿#region References
+#region References
 using UnityEngine;
 using System.Collections;
 #endregion
@@ -30,6 +30,8 @@ public class CharacterControl : MonoBehaviour
 
 	private Transform					_explosionSphere;
 	private Transform					_explosionWavePrefab;
+
+	private Transform					_explosionWave;
 	#endregion
 
 	#region Public Variables
@@ -304,7 +306,7 @@ public class CharacterControl : MonoBehaviour
 			break;
 		case PowerupManager.PowerupType.HoneyBlast:
 			break;
-		case PowerupManager.PowerupType.Crumbs:
+		case PowerupManager.PowerupType.ChocoRush:
 			CrumbsManager.crumbsInstance.SprinkleCrumbs();
 			break;
 		}
@@ -338,6 +340,14 @@ public class CharacterControl : MonoBehaviour
 
 		yield return new WaitForSeconds(animationLength);
 
+		if(_explosionWave != null)
+		{
+			StopCoroutine("CreateEplosionWave");
+			Destroy(_explosionWave.gameObject);
+		}
+
+		GUIManager.guiInstance.ShowGameOverPanel();
+
 		GameDirector.gameInstance.KillCharacter();
 	}
 
@@ -367,11 +377,11 @@ public class CharacterControl : MonoBehaviour
 		Quaternion rotateAboutX = Quaternion.AngleAxis(90.0f, Vector3.right);
 		Vector3 position = transform.position; 
 		position.y = 0.5f;
-		Transform explosion = Instantiate(explosionWavePrefab, position, rotateAboutX) as Transform;
+		_explosionWave = Instantiate(explosionWavePrefab, position, rotateAboutX) as Transform;
 
 		yield return new WaitForSeconds(explosionTime);
 
-		Destroy(explosion.gameObject);
+		Destroy(_explosionWave.gameObject);
 	}
 	#endregion
 

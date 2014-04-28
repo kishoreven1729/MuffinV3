@@ -10,6 +10,11 @@ public class CrumbsManager : MonoBehaviour
 	private Transform		_crumbGroup;
 	private List<Transform> _crumbsList;
 	private int				_crumbsCount;
+
+	private float			_crumbMaxX;
+	private float			_crumbMinX;
+	private float			_crumbMaxZ;
+	private float			_crumbMinZ;
 	#endregion
 
 	#region Public Variables
@@ -28,7 +33,7 @@ public class CrumbsManager : MonoBehaviour
 
 		try
 		{
-			_crumbGroup = transform.GetChild(0);
+			_crumbGroup = GameObject.FindGameObjectWithTag("CrumbsPowerup").transform;
 
 			_crumbsCount = _crumbGroup.childCount;
 
@@ -43,6 +48,12 @@ public class CrumbsManager : MonoBehaviour
 		{
 			Debug.Log("CrumbsManager-Start: \n" + ex.Message);
 		}
+
+		_crumbMinX = 1.0f;
+		_crumbMaxX = 2.0f;
+
+		_crumbMinZ = 1.0f;
+		_crumbMaxZ = 2.0f;
 	}
 	#endregion
 	
@@ -58,44 +69,78 @@ public class CrumbsManager : MonoBehaviour
 	{
 		DestroyAllCrumbs();
 
-		_crumbGroup.gameObject.SetActive(true);
+		//_crumbGroup.gameObject.SetActive(true);
+
+		Vector3 groupPosition = transform.position;
+
+		_crumbGroup.position = groupPosition;
 
 		for(int index = 0; index < _crumbsCount; index ++)
 		{
 			try
 			{
-				Vector3 localPosition = _crumbGroup.position;
+				Vector3 localPosition = Vector3.zero;
 
-				float rangeSide = Random.Range(0.0f, 1.0f);
+				int quadrant = (index) / 2 % 4;
 
-				if(rangeSide > 0.5f)
+				float xMin = _crumbMinX, xMax = _crumbMaxX;
+				float zMin = _crumbMinZ, zMax = _crumbMaxZ;
+
+				switch(quadrant)
 				{
-					localPosition.x += Random.Range(-2.0f, -1.0f);
-				}
-				else
-				{
-					localPosition.x += Random.Range(1.0f, 2.0f);
+				case 0:
+					{						
+						break;
+					}
+				case 1:
+					{
+						xMin = -_crumbMaxX;
+						xMax = -_crumbMinX;
+							
+						zMin = _crumbMinZ;
+						zMax = _crumbMaxZ;
+						break;
+					}
+				case 2:
+					{
+						xMin = -_crumbMaxX;
+						xMax = -_crumbMinX;
+							
+						zMin = -_crumbMaxZ;
+						zMax = -_crumbMinZ;
+						break;
+					}
+				case 3:
+					{
+						xMin = _crumbMinX;
+						xMax = _crumbMaxX;
+						
+						zMin = -_crumbMaxZ;
+						zMax = -_crumbMinZ;
+						break;
+					}
 				}
 
-				rangeSide = Random.Range(0.0f, 1.0f);
-
-				if(rangeSide > 0.5f)
-				{
-					localPosition.z += Random.Range(-2.0f, -1.0f);
-				}
-				else
-				{
-					localPosition.z += Random.Range(1.0f, 2.0f);
-				}
+				localPosition.x = Random.Range(xMin, xMax);
+				localPosition.z = Random.Range(zMin, zMax);
 
 				_crumbsList[index].gameObject.SetActive(true);
-				_crumbsList[index].localPosition = localPosition;
+
+				//_crumbsList[index].localPosition = localPosition;
+
+				localPosition.y = 1.0f;
+
+				localPosition.Normalize();
+
+				_crumbsList[index].rigidbody.AddForce(localPosition * 500.0f);
 			}
 			catch(System.Exception ex)
 			{
 				Debug.Log("CrumbsManager-SprinkleCrumbs: \n" + ex.Message);
 			}
 		}
+
+		StartCoroutine(CrumbsExpiry());
 	}
 
 	public void RemoveCrumb(string name)
@@ -128,19 +173,22 @@ public class CrumbsManager : MonoBehaviour
 
 	public void DestroyAllCrumbs()
 	{
-		try
+		for(int index = 0; index < _crumbsCount; index ++)
 		{
-			foreach(Transform crumb in _crumbsList)
+			if(_crumbsList[index].gameObject.activeSelf == true)
 			{
-				crumb.gameObject.SetActive(false);
+				_crumbsList[index].gameObject.SetActive(false);
 			}
+		}
+	}
+	#endregion
 
-			_crumbGroup.gameObject.SetActive(false);
-		}
-		catch(System.Exception ex)
-		{
-			Debug.Log("CrumbsManager-DestroyAllCrumbs: \n" + ex.Message); 
-		}
+	#region Coroutines
+	public IEnumerator CrumbsExpiry()
+	{
+		yield return new WaitForSeconds(5.0f);
+
+		DestroyAllCrumbs();
 	}
 	#endregion
 }

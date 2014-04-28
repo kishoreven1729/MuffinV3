@@ -139,9 +139,10 @@ public class PowerupControl : MonoBehaviour
 	{
 		if(powerupType == PowerupManager.PowerupType.HoneyBlast)
 		{
-			Debug.Log("Reached Here with HoneyBlast");
 			EnemySpawnManager.enemySpawnManagerInstance.FreezeEnemies(false);
+
 			RemovePowerup(false);
+
 			_powerupExpiryTimer = Time.time + _impactTime;
 			_isPowerupUsed = true;
 		}

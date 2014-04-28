@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 51e2908c8cda644de89a2b5c68e80868
 ModelImporter:
-  serializedVersion: 15
+  serializedVersion: 16
   fileIDToRecycleName:
     100000: be_L_eye1
     100002: be_R_eye
@@ -36,8 +36,8 @@ ModelImporter:
     4300000: go_R_eye
     4300002: go_L_eye
     4300004: go_muffin
-    7400000: HoneyBlast
-    7400002: Crumbs
+    7400000: ChocoRush
+    7400002: Blast
     7400004: CranberrySpin
     7400006: DropTrapB
     9500000: //RootNode
@@ -60,16 +60,16 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: HoneyBlast
+      name: ChocoRush
       takeName: Take 001
       firstFrame: 40
-      lastFrame: 65
+      lastFrame: 58
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -116,9 +116,9 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Crumbs
+      name: Blast
       takeName: Take 001
-      firstFrame: 100
+      firstFrame: 102
       lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
@@ -137,7 +137,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: .981654286
+        functionName: SendAnimationEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -193,7 +200,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: .243033379
+        functionName: SendAnimationEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: .83814913
+        functionName: SendAnimationEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -231,7 +252,7 @@ ModelImporter:
       name: DropTrapB
       takeName: Take 001
       firstFrame: 66
-      lastFrame: 90
+      lastFrame: 84
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -249,7 +270,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: .830559909
+        functionName: SendAnimationEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -319,4 +347,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
+  additionalBone: 0
   userData: 

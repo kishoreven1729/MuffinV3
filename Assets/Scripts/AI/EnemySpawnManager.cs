@@ -103,7 +103,7 @@ public class EnemySpawnManager : MonoBehaviour
 
 			Transform enemySpawnPoint = _enemySpawnPoints[index];
 
-			int enemyLevelIndex = ChooseRandomIndex(_maxEnemyLevel);
+			int enemyLevelIndex = ChooseRandomIndex(_enemyLevel);
 
 			Transform enemy = Instantiate(enemyPrefabs[enemyLevelIndex], enemySpawnPoint.position, enemySpawnPoint.rotation) as Transform;
 			enemy.name = enemyName;
