@@ -35,9 +35,10 @@ public class ButtonControl : MonoBehaviour
                 GUIManager.guiInstance.ShowInGamePanel();
 //                type = ButtonType.Pause;
                 break;
-		case ButtonType.Share:
-			ScoringDirector.scoringInstance.PostOnFacebook();
-			break;
+			case ButtonType.Share:				
+				ScoringDirector.scoringInstance.PostOnFacebook();
+				type = ButtonType.Share;
+				break;
         }
     }
 

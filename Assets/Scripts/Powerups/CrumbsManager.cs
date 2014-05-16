@@ -7,15 +7,12 @@ using System.Collections.Generic;
 public class CrumbsManager : MonoBehaviour 
 {
 	#region Private Variables
-	private Dictionary<string, Transform> _crumbsCollection;
+	private Transform		_crumbGroup;
+	private List<Transform> _crumbsList;
+	private int				_crumbsCount;
 	#endregion
 
 	#region Public Variables
-	public Transform	crumbPrefab;
-
-	public int			minNumberOfCrumbs;
-	public int			maxNumberOfCrumbs;
-
 	public static CrumbsManager crumbsInstance;
 	#endregion
 
@@ -27,7 +24,25 @@ public class CrumbsManager : MonoBehaviour
 
 	void Start()
 	{
-		_crumbsCollection = new Dictionary<string, Transform>();
+		_crumbsList = new List<Transform>();
+
+		try
+		{
+			_crumbGroup = transform.GetChild(0);
+
+			_crumbsCount = _crumbGroup.childCount;
+
+			for(int index = 0; index < _crumbsCount; index++)
+			{
+				_crumbsList.Add(_crumbGroup.GetChild(index));
+			}
+
+			DestroyAllCrumbs();
+		}
+		catch(System.Exception ex)
+		{
+			Debug.Log("CrumbsManager-Start: \n" + ex.Message);
+		}
 	}
 	#endregion
 	
@@ -43,15 +58,13 @@ public class CrumbsManager : MonoBehaviour
 	{
 		DestroyAllCrumbs();
 
-		int numberOfCrumbs = Random.Range(minNumberOfCrumbs, maxNumberOfCrumbs);
+		_crumbGroup.gameObject.SetActive(true);
 
-		for(int index = 0; index < numberOfCrumbs; index ++)
+		for(int index = 0; index < _crumbsCount; index ++)
 		{
-			string name = "Crumbs_" + index;
-
 			try
 			{
-				Vector3 localPosition = transform.position;
+				Vector3 localPosition = _crumbGroup.position;
 
 				float rangeSide = Random.Range(0.0f, 1.0f);
 
@@ -75,10 +88,8 @@ public class CrumbsManager : MonoBehaviour
 					localPosition.z += Random.Range(1.0f, 2.0f);
 				}
 
-
-				Transform crumb = Instantiate(crumbPrefab, localPosition, Quaternion.AngleAxis(Random.Range(0.0f, 180.0f), Vector3.up)) as Transform;
-				crumb.name = name;
-				_crumbsCollection.Add(name, crumb);
+				_crumbsList[index].gameObject.SetActive(true);
+				_crumbsList[index].localPosition = localPosition;
 			}
 			catch(System.Exception ex)
 			{
@@ -89,19 +100,19 @@ public class CrumbsManager : MonoBehaviour
 
 	public void RemoveCrumb(string name)
 	{
-		try
+		/*try
 		{
 			_crumbsCollection.Remove(name);
 		}
 		catch(System.Exception ex)
 		{
 			Debug.Log("CrumbsManager-RemoveCrumb: \n" + ex.Message);
-		}
+		}*/
 	}
 
 	public void PauseCrumbs()
 	{
-		foreach(Transform crumb in _crumbsCollection.Values)
+		foreach(Transform crumb in _crumbsList)
 		{
 			crumb.SendMessage("PauseCrumbsTimer", SendMessageOptions.DontRequireReceiver);
 		}
@@ -109,7 +120,7 @@ public class CrumbsManager : MonoBehaviour
 
 	public void ResumeCrumbs()
 	{
-		foreach(Transform crumb in _crumbsCollection.Values)
+		foreach(Transform crumb in _crumbsList)
 		{
 			crumb.SendMessage("ResumeCrumbsTimer", SendMessageOptions.DontRequireReceiver);
 		}
@@ -119,12 +130,12 @@ public class CrumbsManager : MonoBehaviour
 	{
 		try
 		{
-			foreach(Transform crumb in _crumbsCollection.Values)
+			foreach(Transform crumb in _crumbsList)
 			{
-				Destroy(crumb.gameObject);
+				crumb.gameObject.SetActive(false);
 			}
 
-			_crumbsCollection.Clear();
+			_crumbGroup.gameObject.SetActive(false);
 		}
 		catch(System.Exception ex)
 		{

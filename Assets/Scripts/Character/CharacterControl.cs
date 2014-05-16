@@ -29,10 +29,12 @@ public class CharacterControl : MonoBehaviour
 	private bool						_requestForDeathAnimation;
 
 	private Transform					_explosionSphere;
+	private Transform					_explosionWavePrefab;
 	#endregion
 
 	#region Public Variables
 	public float						characterMovementSpeed;
+	public Transform					explosionWavePrefab;
 	#endregion
 
 	#region Constructor
@@ -78,8 +80,8 @@ public class CharacterControl : MonoBehaviour
 
 			if(_canCharacterMove == true)
 			{
-#if UNITY_ANDROID || UNITY_IOS
-				_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
+
+				/*_characterMovementDirection = new Vector3 (Input.acceleration.x, 0, Input.acceleration.y);
 
 				if(Vector3.Distance(Vector3.zero, _characterMovementDirection) > _characterMovementThreshold)
 				{
@@ -104,8 +106,8 @@ public class CharacterControl : MonoBehaviour
 						newCharacterState = CharacterState.Powerup;
 						ApplyPowerup();
 					}
-				}
-#else 
+				}*/
+ 
 				if(Input.GetKey(KeyCode.A))
 				{
 					_characterMovementDirection.x = -1.0f;
@@ -142,7 +144,6 @@ public class CharacterControl : MonoBehaviour
 					newCharacterState = CharacterState.Powerup;
 					ApplyPowerup();
 				}
-#endif
 			}
 
 			if(newCharacterState == CharacterState.Walk)
@@ -284,12 +285,24 @@ public class CharacterControl : MonoBehaviour
 
 		float halfAnimationTime = _characterAnimator.GetCurrentAnimatorStateInfo(0).length / 3;
 
+		switch(powerupType)
+		{
+		case PowerupManager.PowerupType.CranberrySpin:
+			StartCoroutine(CreateEplosionWave(1.2f));
+			break;
+		case PowerupManager.PowerupType.HoneyBlast:
+			StartCoroutine(CreateEplosionWave(1.8f));
+			break;		
+		}
+
 		yield return new WaitForSeconds(halfAnimationTime);
 
 		switch(powerupType)
 		{
 		case PowerupManager.PowerupType.CranberrySpin:
 			_explosionSphere.gameObject.SetActive(true);
+			break;
+		case PowerupManager.PowerupType.HoneyBlast:
 			break;
 		case PowerupManager.PowerupType.Crumbs:
 			CrumbsManager.crumbsInstance.SprinkleCrumbs();
@@ -345,6 +358,20 @@ public class CharacterControl : MonoBehaviour
 		}
 
 		return _isResumed;
+	}
+	#endregion
+
+	#region Particle Enumerators
+	public IEnumerator CreateEplosionWave(float explosionTime)
+	{
+		Quaternion rotateAboutX = Quaternion.AngleAxis(90.0f, Vector3.right);
+		Vector3 position = transform.position; 
+		position.y = 0.5f;
+		Transform explosion = Instantiate(explosionWavePrefab, position, rotateAboutX) as Transform;
+
+		yield return new WaitForSeconds(explosionTime);
+
+		Destroy(explosion.gameObject);
 	}
 	#endregion
 

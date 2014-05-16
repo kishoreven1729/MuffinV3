@@ -86,9 +86,7 @@ public class CrumbsControl : MonoBehaviour
 
 	private void DestroyCrumb()
 	{
-		CrumbsManager.crumbsInstance.RemoveCrumb(transform.name);
-
-		Destroy(gameObject);
+		transform.gameObject.SetActive(false);
 	}
 	#endregion
 }
