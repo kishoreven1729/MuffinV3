@@ -53,6 +53,8 @@ public class DieState : State
 			GUIManager.guiInstance.ShowGameOverPanel();
 
 			_isCameraAnimationEnded = false;
+
+			_stateManager.SwitchToState("Idle");
 		}
 	}
 	#endregion

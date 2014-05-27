@@ -12,6 +12,8 @@ public class EnemyControl : MonoBehaviour
 	private bool			_glueEnemy;
 
 	private Animator		_enemyAnimator;
+
+	private float 			_upgradeVelocity;
 	#endregion
 
 	#region Public Variables
@@ -19,6 +21,11 @@ public class EnemyControl : MonoBehaviour
 	#endregion
 
 	#region Constructor
+	void Awake()
+	{
+		_upgradeVelocity = 0.0f;
+	}
+
 	void Start()
 	{
 		_enemyDistanceThreshold = 2.0f;
@@ -35,6 +42,8 @@ public class EnemyControl : MonoBehaviour
 		}
 
 		_glueEnemy = false;
+
+		_enemyNavMeshAgent.speed += _upgradeVelocity; 
 	}
 	#endregion
 	
@@ -102,6 +111,11 @@ public class EnemyControl : MonoBehaviour
 	public void UnFreezeBlast()
 	{
 		_glueEnemy = false;
+	}
+
+	public void SetVelocity(float speed)
+	{
+		_upgradeVelocity = speed;
 	}
 	#endregion
 }

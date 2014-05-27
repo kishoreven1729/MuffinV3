@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Facebook.MiniJSON;
 using System;
+using Facebook;
+
+
 #endregion
 
 public class ScoringDirector : MonoBehaviour 
@@ -14,7 +17,7 @@ public class ScoringDirector : MonoBehaviour
 
 	#region Private Variables
 	private int 					_cummulativeKillScore;
-	private long 					_timeScore;
+	private int 					_timeScore;
 	private float					_survivalTime;
 
 	private bool					_isScoringPaused;
@@ -30,12 +33,11 @@ public class ScoringDirector : MonoBehaviour
 	#region Public Variables
 	public static ScoringDirector 	scoringInstance;
 
-	public long 					gameScore;
+	public int 						gameScore;
 	#endregion
 
 	#region Facebook Variables
-	private Dictionary<string, string> 	_profile;
-	public string 						facebookName;
+
 	#endregion
 
 	#region Constructor
@@ -43,9 +45,7 @@ public class ScoringDirector : MonoBehaviour
 	{
 		scoringInstance = this;
 
-		facebookName = "none";
-
-		CallFBInit();
+		//CallFBInit();
 	}
 
 	void Start() 
@@ -66,7 +66,7 @@ public class ScoringDirector : MonoBehaviour
 
 		/*Threshold Setup*/
 		_powerupThreshold = 30;
-		_upgradeRatChunkCount = 10;
+		_upgradeRatChunkCount = 2;
 		_upgradeRatSpeedsChunkCount = 20;
 	}
 	#endregion
@@ -88,7 +88,7 @@ public class ScoringDirector : MonoBehaviour
 
 	void OnGUI()
 	{
-		GUI.Label(new Rect(30, 30, 150, 150), "Name: " + facebookName);
+	
 	}
 	#endregion
 
@@ -141,9 +141,6 @@ public class ScoringDirector : MonoBehaviour
 			{
 				EnemySpawnManager.enemySpawnManagerInstance.UpEnemyLevel();
 			}
-			if(_lastChunkCount > _upgradeRatSpeedsChunkCount)
-			{
-			}
 		}
 	}
 
@@ -152,115 +149,5 @@ public class ScoringDirector : MonoBehaviour
 		_powerupThreshold += cost;
 	}
 	#endregion
-
-	#region Facebook Methods
-	private void CallFBInit()
-	{
-		FB.Init(OnInitComplete, OnHideUnity);
-	}
 	
-	void OnInitComplete()
-	{
-		//Debug.Log("FB.Init completed: Is user logged in? " + FB.IsLoggedIn);
-
-		if(FB.IsLoggedIn == false)
-		{
-			FB.Login("email,publish_actions", LoginCallback);
-		}
-	}
-	
-	void OnHideUnity(bool isGameShown)
-	{
-		Debug.Log("Is game showing? " + isGameShown);
-	}
-	
-	void LoginCallback(FBResult result)
-	{
-		/*if (result.Error != null)
-			lastResponse = "Error Response:\n" + result.Error;
-		else if (!FB.IsLoggedIn)
-		{
-			lastResponse = "Login cancelled by Player";
-		}
-		else
-		{
-			lastResponse = "Login was successful!";
-		}*/
-
-		ProfileFetch();
-	}
-
-	void ProfileFetch()
-	{
-		Debug.Log("Logged in. ID: " + FB.UserId);
-		
-		// Reqest player info and profile picture
-		FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, ProfileFetchCallback);
-	}
-
-	void ProfileFetchCallback(FBResult result)
-	{
-		if (result.Error != null)
-		{
-			Debug.LogError(result.Error);
-			// Let's just try again
-			FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, ProfileFetchCallback);
-			return;
-		}
-		
-		_profile = DeserializeJSONProfile(result.Text);
-
-		facebookName = _profile["first_name"];
-
-		Debug.Log("Logged in User: " + facebookName);
-	}
-
-	public Dictionary<string, string> DeserializeJSONProfile(string response)
-	{
-		var responseObject = Json.Deserialize(response) as Dictionary<string, object>;
-		object nameH;
-		var profile = new Dictionary<string, string>();
-		if (responseObject.TryGetValue("first_name", out nameH))
-		{
-			profile["first_name"] = (string)nameH;
-		}
-		return profile;
-	}
-	
-	public void PostOnFacebook()
-	{
-		if(FB.IsLoggedIn)
-		{
-			FB.Feed(
-				linkCaption: "I just scored " + gameScore + " on the test version of Muffin Morphosis!",
-				linkName: "Muffin Morphosis - Quest for more crumbs",
-				picture: "http://kishorevenkateshan.com/Downloads/MuffinSplashScreen.png",
-				callback: OnPostComplete
-				);
-
-			Debug.Log("Posting On facebook");
-		}
-	}
-
-	void OnPostComplete(FBResult response)
-	{
-		Debug.Log("Facebook Post Compelete");
-	}
-
-	public void PostChallenge()
-	{
-		if(FB.IsLoggedIn)
-		{
-			FB.AppRequest(
-				message: "Do you think you can surpass my score," + gameScore + "? ",
-				callback: OnPostChallengeComplete
-				);
-		}
-	}
-
-	void OnPostChallengeComplete(FBResult response)
-	{
-		Debug.Log("Facebook Post Challenge Compelete");
-	}
-	#endregion
 }

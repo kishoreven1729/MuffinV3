@@ -94,6 +94,8 @@ public class GameDirector : MonoBehaviour
 			characterDropLocation = character.FindChild("DropLocation") as Transform;
 
 			gameCamera.SendMessage("AnimateToStart", SendMessageOptions.DontRequireReceiver);
+
+			FacebookManager.facebookInstance.FetchScore();
 		}
 		catch(System.Exception ex)
 		{

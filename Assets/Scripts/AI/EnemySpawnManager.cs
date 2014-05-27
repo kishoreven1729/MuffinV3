@@ -18,12 +18,16 @@ public class EnemySpawnManager : MonoBehaviour
 
 	private int						_enemyLevel;
 	private int						_maxEnemyLevel;
+
+	private float					_upgradeVelocity;
 	#endregion
 
 	#region Public Variables
 	public static EnemySpawnManager			enemySpawnManagerInstance;
 	public Transform[]						enemyPrefabs;
 	public Dictionary<string, Transform>	enemyCollection;
+
+	public float							maxEnemySpeed;
 
 	public float							spawnInterval;
 	#endregion
@@ -46,6 +50,8 @@ public class EnemySpawnManager : MonoBehaviour
 		_maxEnemyLevel = enemyPrefabs.Length;
 
 		enemyCollection = new Dictionary<string, Transform>();
+
+		_upgradeVelocity = 0.0f;
 
 		try
 		{
@@ -103,6 +109,10 @@ public class EnemySpawnManager : MonoBehaviour
 
 			Transform enemy = Instantiate(enemyPrefabs[enemyLevelIndex], enemySpawnPoint.position, enemySpawnPoint.rotation) as Transform;
 			enemy.name = enemyName;
+
+			_upgradeVelocity *= (_enemyLevel - 1);
+
+			enemy.SendMessage("SetVelocity", _upgradeVelocity, SendMessageOptions.DontRequireReceiver);
 
 			enemyCollection.Add(enemyName, enemy);
 		}
@@ -176,6 +186,13 @@ public class EnemySpawnManager : MonoBehaviour
 		if(_enemyLevel > _maxEnemyLevel)
 		{
 			_enemyLevel = _maxEnemyLevel;
+
+			_upgradeVelocity += 2.0f;
+
+			if(_upgradeVelocity > maxEnemySpeed)
+			{
+				_upgradeVelocity = maxEnemySpeed;
+			}
 		}
 	}
 
