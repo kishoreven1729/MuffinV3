@@ -27,6 +27,10 @@ public class GameDirector : MonoBehaviour
 
 	#region Prefab Variables
 	public Transform			characterPrefab;
+
+	public Transform			cranberrySpinParticles;
+	public Transform			honeyBlastParticles;
+	public Transform			chocoParticles;
 	#endregion
 
 	#region Constructor
@@ -152,7 +156,7 @@ public class GameDirector : MonoBehaviour
 		character.SendMessage("ResumeGame", SendMessageOptions.DontRequireReceiver);
 		
 		TrapManager.trapManagerInstance.ResumeTrapTimers();
-	}                     
+	}                  
 	#endregion
 
 	#region Event Handlers
@@ -167,6 +171,33 @@ public class GameDirector : MonoBehaviour
 		{
 			//GUIManager.guiInstance.ShowGameOverPanel();
 		}
+	}
+	#endregion
+
+	#region Particle Methods
+	public Transform SpawnParticles(string particleType)
+	{
+		Transform spawnedTransform = null;
+
+		if(particleType == "Choco")
+		{
+			spawnedTransform = Instantiate(chocoParticles, character.position, Quaternion.AngleAxis(90.0f, Vector3.up)) as Transform;
+		}
+		else if(particleType == "Spin")
+		{
+			spawnedTransform = Instantiate(cranberrySpinParticles, character.position, Quaternion.identity) as Transform;
+		}
+		else if(particleType == "Blast")
+		{
+			spawnedTransform = Instantiate(honeyBlastParticles, character.position, Quaternion.AngleAxis(-90.0f, Vector3.right)) as Transform;
+		}
+
+		return spawnedTransform;
+	}
+
+	public void DestroyParticles(Transform particle)
+	{
+		Destroy(particle.gameObject);
 	}
 	#endregion
 }

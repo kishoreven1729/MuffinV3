@@ -16,6 +16,8 @@ public class ChocoRushState : State
 
 	private SphereCollider	_characterCollider;
 	private	float			_defaultColliderRadius;
+
+	private Transform		_spawnedParticle;
 	#endregion
 	
 	#region Constructor
@@ -45,6 +47,10 @@ public class ChocoRushState : State
 		_impactTimer = Time.time + _impactDuration;	
 
 		_characterCollider.radius *= 2.0f;
+
+		_spawnedParticle = GameDirector.gameInstance.SpawnParticles("Choco");
+
+		_spawnedParticle.parent = _character;
 	}
 
 	public override void UpdateFunction ()
@@ -68,6 +74,13 @@ public class ChocoRushState : State
 
 			_stateManager.SwitchToState("Idle");
 		}
+	}
+
+	public override void OnStateExit ()
+	{
+		base.OnStateExit ();
+
+		GameDirector.gameInstance.DestroyParticles(_spawnedParticle);
 	}
 
 	public override void CollisionFunction (Collider collidee)

@@ -69,22 +69,6 @@ public class MuffinControl : MonoBehaviour
 	#endregion
 
 	#region Methods
-	public Transform CreateEplosionWave(Transform explosionPrefab)
-	{
-		Quaternion rotateAboutX = Quaternion.AngleAxis(90.0f, Vector3.right);
-		Vector3 position = transform.position; 
-		position.y = 0.5f;
-
-		Transform explosionWave = Instantiate(explosionPrefab, position, rotateAboutX) as Transform;
-		
-		return explosionWave;
-	}
-
-	public void DestroyExplosionWave(Transform wave)
-	{
-		Destroy(wave.gameObject);
-	}
-
 	public void PauseGame()
 	{
 		_stateManager.PushTransitionData("Pause", _stateManager.currentCharacterState.stateName);

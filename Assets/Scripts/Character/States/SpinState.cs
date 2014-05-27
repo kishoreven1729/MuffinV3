@@ -11,11 +11,12 @@ public class SpinState : State
 	private SphereCollider 	_characterCollider;
 
 	private float			_targetSphereRadius;
-	private Transform		_explosionPrefab;
 
 	private Transform		_createdExplosion;
 
 	private MuffinControl 	_muffinControl;
+
+	private Transform		_spawnedParticle;
 	#endregion
 	
 	#region Constructor
@@ -29,8 +30,6 @@ public class SpinState : State
 
 		_targetSphereRadius = 20.0f;
 
-		_explosionPrefab = Resources.Load<Transform>("DynamicPrefabs/ExplosionWave");
-
 		_muffinControl = _character.GetComponent<MuffinControl>();
 	}
 	#endregion
@@ -43,10 +42,17 @@ public class SpinState : State
 		_character.rigidbody.Sleep();
 		
 		_characterAnimator.SetTrigger(animationTriggerString);
+
+		_spawnedParticle = GameDirector.gameInstance.SpawnParticles("Spin");
 	}
 
 	public override void UpdateFunction()
 	{
+		if(_spawnedParticle != null)
+		{
+			_spawnedParticle.Rotate(Vector3.up, Time.deltaTime * 1000.0f, Space.World);
+		}
+
 		if(_eventCount == 1)
 		{
 			if(_characterCollider.radius < _targetSphereRadius)
@@ -71,18 +77,23 @@ public class SpinState : State
 
 		if(_eventCount == 1)
 		{
-			_createdExplosion = _muffinControl.CreateEplosionWave(_explosionPrefab);
+
 		}
 		else if(_eventCount == 2)
 		{
 			_eventCount = 0;
 
-			_muffinControl.DestroyExplosionWave(_createdExplosion);
-
 			_characterCollider.radius = _defaultSphereRadius;
 
 			_stateManager.SwitchToState("Idle");
 		}
+	}
+
+	public override void OnStateExit ()
+	{
+		base.OnStateExit ();
+
+		GameDirector.gameInstance.DestroyParticles(_spawnedParticle);
 	}
 	#endregion
 	

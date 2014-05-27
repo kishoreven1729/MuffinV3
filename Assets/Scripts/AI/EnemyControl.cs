@@ -14,10 +14,16 @@ public class EnemyControl : MonoBehaviour
 	private Animator		_enemyAnimator;
 
 	private float 			_upgradeVelocity;
+
+	private Transform		_enemySpawnedParticles;
+
+	private Transform		_enemyAsset;
 	#endregion
 
 	#region Public Variables
 	public int				enemyLevel;
+
+	public Transform		enemyParticles;
 	#endregion
 
 	#region Constructor
@@ -34,7 +40,9 @@ public class EnemyControl : MonoBehaviour
 		{
 			_enemyNavMeshAgent = GetComponent<NavMeshAgent>();
 
-			_enemyAnimator = transform.GetChild(0).GetComponent<Animator>();
+			_enemyAsset = transform.GetChild(0);
+
+			_enemyAnimator = _enemyAsset.GetComponent<Animator>();
 		}
 		catch (System.Exception ex)
 		{
@@ -69,7 +77,10 @@ public class EnemyControl : MonoBehaviour
 			_enemyNavMeshAgent.velocity = Vector3.zero;
 		}	
 
-		_enemyAnimator.SetFloat("Velocity", _enemyNavMeshAgent.velocity.magnitude);
+		if(_enemyAnimator != null)
+		{
+			_enemyAnimator.SetFloat("Velocity", _enemyNavMeshAgent.velocity.magnitude);
+		}
 	}
 	#endregion
 
@@ -100,7 +111,13 @@ public class EnemyControl : MonoBehaviour
 
 		EnemySpawnManager.enemySpawnManagerInstance.KillEnemy(gameObject.name);
 
-		Destroy(gameObject);
+		_enemyAsset.gameObject.SetActive(false);
+
+		GetComponent<BoxCollider>().enabled = false;
+
+		_enemySpawnedParticles = Instantiate(enemyParticles, transform.position, Quaternion.AngleAxis(-90.0f, Vector3.right)) as Transform;
+
+		StartCoroutine(DestroyMouse());
 	}
 
 	public void FreezeBlast()
@@ -116,6 +133,17 @@ public class EnemyControl : MonoBehaviour
 	public void SetVelocity(float speed)
 	{
 		_upgradeVelocity = speed;
+	}
+	#endregion
+
+	#region Coroutines
+	public IEnumerator DestroyMouse()
+	{
+		yield return new WaitForSeconds(0.8f);
+
+		Destroy(_enemySpawnedParticles.gameObject);
+
+		Destroy(transform.gameObject);
 	}
 	#endregion
 }
