@@ -13,6 +13,9 @@ public class ChocoRushState : State
 
 	private float	_impactDuration;
 	private float	_impactTimer;
+
+	private SphereCollider	_characterCollider;
+	private	float			_defaultColliderRadius;
 	#endregion
 	
 	#region Constructor
@@ -25,6 +28,10 @@ public class ChocoRushState : State
 		_impactDuration = 5.0f;
 
 		_impactTimer = 0.0f;
+
+		_characterCollider = _character.collider as SphereCollider;
+
+		_defaultColliderRadius = _characterCollider.radius;
 	}
 	#endregion
 	
@@ -36,6 +43,8 @@ public class ChocoRushState : State
 		_characterAnimator.SetTrigger(animationTriggerString);
 
 		_impactTimer = Time.time + _impactDuration;	
+
+		_characterCollider.radius *= 2.0f;
 	}
 
 	public override void UpdateFunction ()
@@ -54,6 +63,8 @@ public class ChocoRushState : State
 		if(Time.time > _impactTimer)
 		{
 			_impactTimer = 0.0f;
+
+			_characterCollider.radius = _defaultColliderRadius;
 
 			_stateManager.SwitchToState("Idle");
 		}

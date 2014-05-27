@@ -8,7 +8,6 @@ public class EnemyControl : MonoBehaviour
 	#region Private Variables
 	private NavMeshAgent	_enemyNavMeshAgent;
 	private float			_enemyDistanceThreshold;
-	private bool			_enableEnemy;
 
 	private bool			_glueEnemy;
 
@@ -35,8 +34,6 @@ public class EnemyControl : MonoBehaviour
 			Debug.Log("EnemyControl-Start: \n" + ex.Message);
 		}
 
-		_enableEnemy = true;
-
 		_glueEnemy = false;
 	}
 	#endregion
@@ -44,31 +41,24 @@ public class EnemyControl : MonoBehaviour
 	#region Loop
 	void Update()
 	{
-		if(_enableEnemy == true)
+		if(_glueEnemy == false)
 		{
-			if(_glueEnemy == false)
+			if(GameDirector.gameInstance.character != null)
 			{
-				if(GameDirector.gameInstance.character != null)
+				Vector3 destination = FindNextDestination();
+
+				_enemyNavMeshAgent.destination = destination;
+
+				if(Vector3.Distance(destination, transform.position) < _enemyDistanceThreshold)
 				{
-					Vector3 destination = FindNextDestination();
-					
-					_enemyNavMeshAgent.destination = destination;
-					
-					if(Vector3.Distance(destination, transform.position) < _enemyDistanceThreshold)
-					{
-						_enemyNavMeshAgent.velocity = Vector3.zero;
-					}
+					_enemyNavMeshAgent.velocity = Vector3.zero;
 				}
 			}
-			else
-			{
-				_enemyNavMeshAgent.velocity = Vector3.zero;
-			}	
 		}
 		else
 		{
 			_enemyNavMeshAgent.velocity = Vector3.zero;
-		}
+		}	
 
 		_enemyAnimator.SetFloat("Velocity", _enemyNavMeshAgent.velocity.magnitude);
 	}
@@ -93,16 +83,6 @@ public class EnemyControl : MonoBehaviour
 		}
 
 		return nextTarget;
-	}
-
-	public void PauseEnemy()
-	{
-		_enableEnemy = false;
-	}
-
-	public void ResumeEnemy()
-	{
-		_enableEnemy = true;
 	}
 
 	public void KillByTrap()

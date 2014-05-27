@@ -55,6 +55,9 @@ public class PauseState : State
 		{
 			_stateManager.SwitchToState("Idle");
 		}
+
+		EnemySpawnManager.enemySpawnManagerInstance.ResumeSpawning();
+		ScoringDirector.scoringInstance.ResumeScoring();
 	}
 	#endregion
 	

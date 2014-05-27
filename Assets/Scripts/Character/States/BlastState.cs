@@ -31,6 +31,8 @@ public class BlastState : State
 		_character.rigidbody.Sleep();
 		
 		_characterAnimator.SetTrigger(animationTriggerString);
+
+		_createdExplosion = _muffinControl.CreateEplosionWave(_explosionPrefab);
 	}
 
 	public override void ReceiveAnimationEvent ()
@@ -41,7 +43,7 @@ public class BlastState : State
 		
 		if(_eventCount == 1)
 		{
-			_createdExplosion = _muffinControl.CreateEplosionWave(_explosionPrefab);
+			EnemySpawnManager.enemySpawnManagerInstance.BlastEnemies();
 		}
 		else if(_eventCount == 2)
 		{

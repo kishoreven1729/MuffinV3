@@ -94,8 +94,6 @@ public class StateHelpers
 		{
 			if(isPowerup == true)
 			{
-				Debug.Log("Sending Enemy Kill");
-
 				collidee.transform.SendMessage("KillByTrap", SendMessageOptions.DontRequireReceiver);
 			}
 			

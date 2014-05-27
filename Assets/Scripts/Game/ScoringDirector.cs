@@ -141,6 +141,9 @@ public class ScoringDirector : MonoBehaviour
 			{
 				EnemySpawnManager.enemySpawnManagerInstance.UpEnemyLevel();
 			}
+			if(_lastChunkCount > _upgradeRatSpeedsChunkCount)
+			{
+			}
 		}
 	}
 

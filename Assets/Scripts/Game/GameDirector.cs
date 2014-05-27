@@ -8,6 +8,8 @@ public class GameDirector : MonoBehaviour
 	#region Private Variables
 	private Vector3				_initialCharacterPosition;
 	private Quaternion			_initialCharacterRotation;
+
+	private float				_defaultTimeScale;
 	#endregion
 
 	#region Public Variables
@@ -50,6 +52,8 @@ public class GameDirector : MonoBehaviour
 
 		_initialCharacterPosition = new Vector3(-1.5f, 0.0f, -2.2f);
 		_initialCharacterRotation = Quaternion.AngleAxis(-180.0f, Vector3.up);
+
+		_defaultTimeScale = Time.timeScale;
 
 //		ResetGame();
 		GUIManager.guiInstance.ShowStartPanel();
@@ -128,11 +132,9 @@ public class GameDirector : MonoBehaviour
 
 		Time.timeScale = 0.0f;
 
-		character.SendMessage("ToggleCharacterMovement", SendMessageOptions.DontRequireReceiver);
+		character.SendMessage("PauseGame", SendMessageOptions.DontRequireReceiver);
 
-		EnemySpawnManager.enemySpawnManagerInstance.PauseSpawning(true);
-		
-		PowerupManager.powerupManagerInstance.PausePowerupGeneration(true);
+		EnemySpawnManager.enemySpawnManagerInstance.PauseSpawning();
 		
 		TrapManager.trapManagerInstance.PauseTrapTimers();
 		
@@ -141,15 +143,13 @@ public class GameDirector : MonoBehaviour
 
 	public void ResumeGame()
 	{
-		character.SendMessage("ToggleCharacterMovement", SendMessageOptions.DontRequireReceiver);
-		
-		EnemySpawnManager.enemySpawnManagerInstance.ResumeSpawning(true);
-		
-		PowerupManager.powerupManagerInstance.ResumePowerupGeneration(true);
+		print("GameDirector : Game Resumed");
+
+		Time.timeScale = _defaultTimeScale;
+
+		character.SendMessage("ResumeGame", SendMessageOptions.DontRequireReceiver);
 		
 		TrapManager.trapManagerInstance.ResumeTrapTimers();
-		
-		ScoringDirector.scoringInstance.ResumeScoring();
 	}                     
 	#endregion
 

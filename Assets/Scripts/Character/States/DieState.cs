@@ -23,6 +23,14 @@ public class DieState : State
 
 		_character.rigidbody.Sleep();
 
+		PowerupManager.powerupManagerInstance.RemoveAllPowerups();
+
+		EnemySpawnManager.enemySpawnManagerInstance.PauseSpawning();
+
+		EnemySpawnManager.enemySpawnManagerInstance.KillAllEnemies();
+
+		ScoringDirector.scoringInstance.PauseScoring();
+
 		GameDirector.gameInstance.gameCamera.SendMessage("AnimateToDeath", SendMessageOptions.DontRequireReceiver);
 	}
 	#endregion
@@ -41,6 +49,8 @@ public class DieState : State
 		else
 		{
 			GameDirector.gameInstance.KillCharacter();
+
+			GUIManager.guiInstance.ShowGameOverPanel();
 
 			_isCameraAnimationEnded = false;
 		}

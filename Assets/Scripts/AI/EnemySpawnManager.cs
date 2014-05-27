@@ -18,8 +18,6 @@ public class EnemySpawnManager : MonoBehaviour
 
 	private int						_enemyLevel;
 	private int						_maxEnemyLevel;
-
-	private float					_leftOverTime;
 	#endregion
 
 	#region Public Variables
@@ -46,8 +44,6 @@ public class EnemySpawnManager : MonoBehaviour
 
 		_enemyLevel = 1;
 		_maxEnemyLevel = enemyPrefabs.Length;
-
-		_leftOverTime = spawnInterval;
 
 		enemyCollection = new Dictionary<string, Transform>();
 
@@ -132,30 +128,16 @@ public class EnemySpawnManager : MonoBehaviour
 		_numberOfSpawns++;
 	}
 
-	public void PauseSpawning(bool isFreeze = false)
+	public void PauseSpawning()
 	{
 		_isSpawning = false;
-
-		if(isFreeze == true)
-		{
-			PauseAllEnemies();
-
-			_leftOverTime = _spawnTimer - Time.time;
-		}
 	}
 
-	public void ResumeSpawning(bool isFreeze = false)
+	public void ResumeSpawning()
 	{
 		_isSpawning = true;
 
 		_spawnTimer = Time.time + spawnInterval;
-
-		if(isFreeze == true)
-		{
-			_spawnTimer = Time.time + _leftOverTime;
-
-			ResumeAllEnemies();
-		}
 	}
 
 	public void KillEnemy(string enemyName)
@@ -167,44 +149,6 @@ public class EnemySpawnManager : MonoBehaviour
 		catch(System.Exception ex)
 		{
 			Debug.Log("EnemySpawnManager-KillEnemy: \n" + ex.Message);
-		}
-	}
-
-	public void PauseAllEnemies()
-	{
-		foreach(Transform enemy in enemyCollection.Values)
-		{
-			enemy.SendMessage("PauseEnemy", SendMessageOptions.DontRequireReceiver);
-		}
-	}
-
-	public void ResumeAllEnemies()
-	{
-		foreach(Transform enemy in enemyCollection.Values)
-		{
-			enemy.SendMessage("ResumeEnemy", SendMessageOptions.DontRequireReceiver);
-		}
-	}
-
-	public void FreezeEnemies(bool isCompleted)
-	{
-		if(isCompleted == false)
-		{
-			PauseSpawning(true);
-
-			foreach(Transform enemy in enemyCollection.Values)
-			{
-				enemy.SendMessage("FreezeBlast", SendMessageOptions.DontRequireReceiver);
-			}
-		}
-		else
-		{
-			ResumeSpawning(true);
-
-			foreach(Transform enemy in enemyCollection.Values)
-			{
-				enemy.SendMessage("UnFreezeBlast", SendMessageOptions.DontRequireReceiver);
-			}
 		}
 	}
 
@@ -242,6 +186,44 @@ public class EnemySpawnManager : MonoBehaviour
 		_enemyLevel = 1;
 
 		ResumeSpawning();
+	}
+	#endregion
+
+	#region Powerup Helpers
+	public void BlastEnemies()
+	{
+		StartCoroutine(BlastRoutine());
+	}
+
+	public IEnumerator BlastRoutine()
+	{
+		FreezeEnemies(false);
+
+		yield return new WaitForSeconds(4.0f);
+
+		FreezeEnemies(true);
+	}
+
+	public void FreezeEnemies(bool isCompleted)
+	{
+		if(isCompleted == false)
+		{
+			PauseSpawning();
+			
+			foreach(Transform enemy in enemyCollection.Values)
+			{
+				enemy.SendMessage("FreezeBlast", SendMessageOptions.DontRequireReceiver);
+			}
+		}
+		else
+		{
+			ResumeSpawning();
+			
+			foreach(Transform enemy in enemyCollection.Values)
+			{
+				enemy.SendMessage("UnFreezeBlast", SendMessageOptions.DontRequireReceiver);
+			}
+		}
 	}
 	#endregion
 }

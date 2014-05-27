@@ -8,10 +8,6 @@ public class MuffinControl : MonoBehaviour
 	#region Private Variables
 	private Animator						_muffinAnimator;
 	private StateManager					_stateManager;
-
-	private float							_characterTurningStrength;
-	private float							_characterMovementThreshold;
-	private Vector3							_characterMovementDirection;
 	#endregion
 
 	#region Public Variables
@@ -21,10 +17,6 @@ public class MuffinControl : MonoBehaviour
 	void Start() 
 	{
 		_muffinAnimator = transform.FindChild("Asset").GetComponent<Animator>();
-
-		_characterTurningStrength = 1000.0f;		
-		_characterMovementThreshold = 0.1f;		
-		_characterMovementDirection = Vector3.zero;
 
 		InitialzeStateManager();
 
@@ -91,6 +83,18 @@ public class MuffinControl : MonoBehaviour
 	public void DestroyExplosionWave(Transform wave)
 	{
 		Destroy(wave.gameObject);
+	}
+
+	public void PauseGame()
+	{
+		_stateManager.PushTransitionData("Pause", _stateManager.currentCharacterState.stateName);
+
+		_stateManager.SwitchToState("Pause");
+	}
+
+	public void ResumeGame()
+	{
+		_stateManager.currentCharacterState.ReceiveAnimationEvent();
 	}
 	#endregion
 

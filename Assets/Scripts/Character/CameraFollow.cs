@@ -108,14 +108,9 @@ public class CameraFollow : MonoBehaviour
 				_hasCharacterLoaded = GameDirector.gameInstance.characterLoaded;
 
 				/*Start the Spawn Manager*/
-				EnemySpawnManager.enemySpawnManagerInstance.ResumeSpawning();
-
-				/*Start Powerup Generator*/
-				PowerupManager.powerupManagerInstance.ResumePowerupGeneration();
+				//EnemySpawnManager.enemySpawnManagerInstance.ResumeSpawning();
 
 				GUIManager.guiInstance.InitializeGUI();
-
-				ScoringDirector.scoringInstance.ResumeScoring();
 			}
 		}
 	}

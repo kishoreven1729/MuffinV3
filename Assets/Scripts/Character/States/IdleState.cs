@@ -45,7 +45,7 @@ public class IdleState : State
 
 		if(StateHelpers.PowerupInput() == true)
 		{
-			switch(PowerupManager.powerupManagerInstance.availablePowerupType)
+			switch(PowerupManager.powerupManagerInstance.UsePowerup())
 			{
 			case PowerupManager.PowerupType.CranberrySpin:
 				_stateManager.SwitchToState("Spin");

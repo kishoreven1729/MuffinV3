@@ -17,15 +17,8 @@ public class PowerupManager : MonoBehaviour
 	#endregion
 
 	#region Private Variables
-	/*
-	private bool 								_shouldGeneratePowerup;
-	private float								_generatorTimer;
-	private float								_leftOverTime;
-	*/
-
 	private int									_powerupTypesCount;
 	private Rect								_powerupSpawnBoundary;
-	private float								_distanceToTrapThreshold;
 
 	private Dictionary<string, Transform>		_powerupsCollection;
 
@@ -42,10 +35,8 @@ public class PowerupManager : MonoBehaviour
 	#region Public Variables
 	public static PowerupManager 	powerupManagerInstance;
 
-	//public float					generatorTimeInterval;
 	public Transform				powerupPrefab;
 
-	public Transform				availablePowerup;
 	public PowerupType				availablePowerupType;
 	#endregion
 
@@ -57,10 +48,6 @@ public class PowerupManager : MonoBehaviour
 
 	void Start() 
 	{	
-		//_shouldGeneratePowerup = false;
-
-		_distanceToTrapThreshold = 1.5f;
-
 		_powerupTypesCount = 3;
 
 		_powerupsCollection = new Dictionary<string, Transform>();
@@ -144,8 +131,6 @@ public class PowerupManager : MonoBehaviour
 		}
 
 		/*Find a random point around the character's location*/
-		List<int> possibleIndices = new List<int>();
-
 		int minIndexX = xIndex - 2, maxIndexX = xIndex + 2, minIndexY = yIndex - 2, maxIndexY = yIndex + 2;
 
 		if(minIndexX < 0)
@@ -180,19 +165,6 @@ public class PowerupManager : MonoBehaviour
 	#region Loop
 	void Update () 
 	{
-		/*if(Time.time > _generatorTimer && _shouldGeneratePowerup == true)
-		{
-			_generatorTimer = Time.time + generatorTimeInterval;
-
-			int index = ChoosePowerupIndex();
-
-			Vector3 position = ChoosePowerupLocation();
-
-			if(index >= 0)
-			{
-				AddPowerup(position, index);
-			}
-		}*/
 	}
 
 	void OnGUI()
@@ -219,7 +191,6 @@ public class PowerupManager : MonoBehaviour
 	{
 		int index = ChoosePowerupIndex();
 		
-		//Vector3 position = ChoosePowerupLocation();
 		Vector3 position = GetPowerupLocation();
 		
 		if(index >= 0)
@@ -279,6 +250,15 @@ public class PowerupManager : MonoBehaviour
 		}
 	}
 
+	public PowerupType UsePowerup()
+	{
+		PowerupType availableType = availablePowerupType;
+
+		availablePowerupType = PowerupType.None;
+
+		return availableType;
+	}
+
 	public void RemovePowerup(string powerupName)
 	{
 		try
@@ -291,104 +271,10 @@ public class PowerupManager : MonoBehaviour
 		}
 	}
 
-	public Vector3 ChoosePowerupLocation()
-	{
-		Vector3 powerupLocation = Vector3.zero;
-
-		powerupLocation.x = Random.Range(_powerupSpawnBoundary.xMin, _powerupSpawnBoundary.xMax);
-		powerupLocation.z = Random.Range(_powerupSpawnBoundary.yMin, _powerupSpawnBoundary.yMax);
-
-		/*Fetch traps data and compute distance*/
-		bool awayFromTraps = false;
-		int maxIterations = 1000;
-
-		while(awayFromTraps == false && maxIterations > 0)
-		{
-			awayFromTraps = true;
-
-			powerupLocation.x = Random.Range(_powerupSpawnBoundary.xMin, _powerupSpawnBoundary.xMax);
-			powerupLocation.z = Random.Range(_powerupSpawnBoundary.yMin, _powerupSpawnBoundary.yMax);
-
-			try
-			{
-				foreach(Transform trap in TrapManager.trapManagerInstance.trapsCollection.Values)
-				{
-					float distance = Vector3.Distance(powerupLocation, trap.position);
-
-					if(distance < _distanceToTrapThreshold)
-					{
-						awayFromTraps = false;
-						break;
-					}
-				}
-
-				foreach(Transform powerup in _powerupsCollection.Values)
-				{
-					float distance = Vector3.Distance(powerupLocation, powerup.position);
-					
-					if(distance < _distanceToTrapThreshold)
-					{
-						awayFromTraps = false;
-						break;
-					}
-				}
-
-				if(Vector3.Distance(powerupLocation, GameDirector.gameInstance.character.position) < _distanceToTrapThreshold)
-				{
-					awayFromTraps = false;
-				}
-			}
-			catch(System.Exception ex)
-			{
-				Debug.Log("PowerupManager-ChoosePowerupLocation: \n" + ex.Message);
-			}
-
-			maxIterations--;
-		}
-
-		return powerupLocation;
-	}
-
-	public void PausePowerupGeneration(bool isFreeze = false)
-	{
-		//_shouldGeneratePowerup = false;
-
-		foreach(Transform powerup in _powerupsCollection.Values)
-		{
-			powerup.SendMessage("PausePowerupTimer", SendMessageOptions.DontRequireReceiver);
-		}
-
-		/*if(isFreeze == true)
-		{
-			_leftOverTime = _generatorTimer - Time.time;
-		}*/
-	}
-
-	public void ResumePowerupGeneration(bool isFreeze = false)
-	{
-		/*_shouldGeneratePowerup = true;
-
-		_generatorTimer = Time.time + generatorTimeInterval;*/
-
-		availablePowerupType = PowerupType.None;
-
-		if(isFreeze == true)
-		{
-			//_generatorTimer = _leftOverTime + Time.time;
-
-			foreach(Transform powerup in _powerupsCollection.Values)
-			{
-				powerup.SendMessage("ResumePowerupTimer", SendMessageOptions.DontRequireReceiver);
-			}
-		}
-	}
-
 	public void RemoveAllPowerups()
 	{
 		try
 		{
-			//_shouldGeneratePowerup = false;
-
 			foreach(Transform powerup in _powerupsCollection.Values)
 			{
 				if(powerup != null)
@@ -408,8 +294,6 @@ public class PowerupManager : MonoBehaviour
 	public void ResetPowerups()
 	{
 		RemoveAllPowerups();
-
-		//ResumePowerupGeneration();
 	}
 	#endregion
 
