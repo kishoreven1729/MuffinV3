@@ -39,8 +39,8 @@ public class FacebookManager : MonoBehaviour
 	#region Loop
 	void OnGUI()
 	{
-		GUI.Label(new Rect(30, 30, 150, 150), "Name: " + facebookName);
-		GUI.Label(new Rect(30, 60, 150, 150), "Score: " + facebookScore);
+		//GUI.Label(new Rect(30, 30, 150, 150), "Name: " + facebookName);
+		//GUI.Label(new Rect(30, 60, 150, 150), "Score: " + facebookScore);
 	}
 	#endregion
 

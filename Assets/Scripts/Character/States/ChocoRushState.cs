@@ -51,6 +51,8 @@ public class ChocoRushState : State
 		_spawnedParticle = GameDirector.gameInstance.SpawnParticles("Choco");
 
 		_spawnedParticle.parent = _character;
+
+		_spawnedParticle.localRotation = Quaternion.LookRotation(-1 * Vector3.forward);
 	}
 
 	public override void UpdateFunction ()

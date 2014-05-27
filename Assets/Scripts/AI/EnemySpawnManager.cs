@@ -187,7 +187,7 @@ public class EnemySpawnManager : MonoBehaviour
 		{
 			_enemyLevel = _maxEnemyLevel;
 
-			_upgradeVelocity += 2.0f;
+			_upgradeVelocity += 0.5f;
 
 			if(_upgradeVelocity > maxEnemySpeed)
 			{

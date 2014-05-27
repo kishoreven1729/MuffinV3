@@ -10,6 +10,8 @@ public class GameDirector : MonoBehaviour
 	private Quaternion			_initialCharacterRotation;
 
 	private float				_defaultTimeScale;
+
+	private bool				_shouldGoHome;
 	#endregion
 
 	#region Public Variables
@@ -58,6 +60,8 @@ public class GameDirector : MonoBehaviour
 		_initialCharacterRotation = Quaternion.AngleAxis(-180.0f, Vector3.up);
 
 		_defaultTimeScale = Time.timeScale;
+
+		_shouldGoHome = false;
 
 //		ResetGame();
 		GUIManager.guiInstance.ShowStartPanel();
@@ -121,6 +125,8 @@ public class GameDirector : MonoBehaviour
 
 	public void ResetGame()
 	{
+		_shouldGoHome = false;
+
 		SpawnCharacter();
 
 		EnemySpawnManager.enemySpawnManagerInstance.ResetSpawnManager();
@@ -130,6 +136,13 @@ public class GameDirector : MonoBehaviour
 		TrapManager.trapManagerInstance.ResetTrapManager();
 
 		ScoringDirector.scoringInstance.ResetScoring();
+	}
+
+	public void GoHome()
+	{
+		gameCamera.SendMessage("AnimateToDeath", SendMessageOptions.DontRequireReceiver);
+
+		_shouldGoHome = true;
 	}
 
 	public void PauseGame()
@@ -169,7 +182,10 @@ public class GameDirector : MonoBehaviour
 		}
 		else
 		{
-			//GUIManager.guiInstance.ShowGameOverPanel();
+			if(_shouldGoHome == true)
+			{
+				GUIManager.guiInstance.ShowStartPanel();
+			}
 		}
 	}
 	#endregion
@@ -181,7 +197,7 @@ public class GameDirector : MonoBehaviour
 
 		if(particleType == "Choco")
 		{
-			spawnedTransform = Instantiate(chocoParticles, character.position, Quaternion.AngleAxis(90.0f, Vector3.up)) as Transform;
+			spawnedTransform = Instantiate(chocoParticles, character.position, Quaternion.AngleAxis(0.0f, Vector3.up)) as Transform;
 		}
 		else if(particleType == "Spin")
 		{
