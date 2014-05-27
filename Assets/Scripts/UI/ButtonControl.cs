@@ -17,7 +17,6 @@ public class ButtonControl : MonoBehaviour
 
     void OnClick()
     {
-        print("hi");
         switch (type)
         {
             case ButtonType.Play:

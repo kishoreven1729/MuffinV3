@@ -7,6 +7,7 @@ public class GUIManager : MonoBehaviour
 {
 	#region Private Variables
 	private bool _loadGUI;
+    private UIRoot _root;
 	#endregion
 
 	#region Public Variables
@@ -19,6 +20,15 @@ public class GUIManager : MonoBehaviour
     public UILabel scoreLabel;
     public UISprite trap;
     public UISprite powerUp;
+    public UILabel powerUpLabel;
+
+    public int UIHeight
+    {
+        set
+        {
+            _root.manualHeight = value;
+        }
+    }
 
 	#endregion
 
@@ -31,6 +41,7 @@ public class GUIManager : MonoBehaviour
 	void Start()
 	{
 		_loadGUI = false;
+        _root = GetComponent<UIRoot>();
 	}
 	#endregion
 	
@@ -113,6 +124,18 @@ public class GUIManager : MonoBehaviour
     void UpdatePowerUp()
     {
         powerUp.spriteName = PowerupManager.powerupManagerInstance.availablePowerupType.ToString();
+    }
+
+    public void SetPowerUpLabel(string s)
+    {
+        StartCoroutine(_SetPowerUpLabel(s));
+    }
+
+    IEnumerator _SetPowerUpLabel(string s)
+    {
+        powerUpLabel.text = s;
+        yield return new WaitForSeconds(1f);
+        powerUpLabel.text = "";
     }
 
 	#endregion
