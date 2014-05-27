@@ -7,18 +7,17 @@ public class BlastState : State
 {
 	#region Private Variables
 	private int				_eventCount;
-	private Transform		_explosionPrefab;
-	
+
 	private Transform		_createdExplosion;
 	
 	private MuffinControl 	_muffinControl;
+
+	private Transform		_spawnedParticle;
 	#endregion
 	
 	#region Constructor
 	public BlastState(StateManager stateManager, Transform character) : base(stateManager, character, "Blast", "Blast")
 	{
-		_explosionPrefab = Resources.Load<Transform>("DynamicPrefabs/ExplosionWave");
-		
 		_muffinControl = _character.GetComponent<MuffinControl>();
 	}
 	#endregion
@@ -32,7 +31,7 @@ public class BlastState : State
 		
 		_characterAnimator.SetTrigger(animationTriggerString);
 
-		_createdExplosion = _muffinControl.CreateEplosionWave(_explosionPrefab);
+		_spawnedParticle = GameDirector.gameInstance.SpawnParticles("Blast");
 	}
 
 	public override void ReceiveAnimationEvent ()
@@ -49,10 +48,15 @@ public class BlastState : State
 		{
 			_eventCount = 0;
 			
-			_muffinControl.DestroyExplosionWave(_createdExplosion);
-			
 			_stateManager.SwitchToState("Idle");
 		}
+	}
+
+	public override void OnStateExit ()
+	{
+		base.OnStateExit ();
+		
+		GameDirector.gameInstance.DestroyParticles(_spawnedParticle);
 	}
 	#endregion
 	

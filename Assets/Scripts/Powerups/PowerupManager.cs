@@ -293,6 +293,8 @@ public class PowerupManager : MonoBehaviour
 
 	public void ResetPowerups()
 	{
+		availablePowerupType = PowerupType.None;
+
 		RemoveAllPowerups();
 	}
 	#endregion
