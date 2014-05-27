@@ -53,6 +53,8 @@ public class ChocoRushState : State
 		_spawnedParticle.parent = _character;
 
 		_spawnedParticle.localRotation = Quaternion.LookRotation(-1 * Vector3.forward);
+
+		GUIManager.guiInstance.SetPowerUpLabel("Choco Rushhhh");
 	}
 
 	public override void UpdateFunction ()

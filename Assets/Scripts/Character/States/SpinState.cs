@@ -44,6 +44,8 @@ public class SpinState : State
 		_characterAnimator.SetTrigger(animationTriggerString);
 
 		_spawnedParticle = GameDirector.gameInstance.SpawnParticles("Spin");
+
+		GUIManager.guiInstance.SetPowerUpLabel("Cranberry Death Spin!!!");
 	}
 
 	public override void UpdateFunction()

@@ -32,6 +32,8 @@ public class BlastState : State
 		_characterAnimator.SetTrigger(animationTriggerString);
 
 		_spawnedParticle = GameDirector.gameInstance.SpawnParticles("Blast");
+
+		GUIManager.guiInstance.SetPowerUpLabel("Honey Blast Stun!");
 	}
 
 	public override void ReceiveAnimationEvent ()
