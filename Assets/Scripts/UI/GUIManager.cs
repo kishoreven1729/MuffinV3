@@ -13,15 +13,27 @@ public class GUIManager : MonoBehaviour
 	#region Public Variables
 	public static GUIManager guiInstance;
 
+    /// <summary>
+    /// The start panel.
+    /// </summary>
 	public GameObject startPanel;
+    /// <summary>
+    /// The in game panel.
+    /// </summary>
 	public GameObject inGamePanel;
 	public GameObject gameOverPanel;
     public GameObject gamePausedPanel;
+    public GameObject leaderboardPanel;
     public UILabel scoreLabel;
     public UISprite trap;
     public UISprite powerUp;
     public UILabel powerUpLabel;
+    public GameObject scoreItemPrefab;
 
+    /// <summary>
+    /// Sets the height of the user interface.
+    /// </summary>
+    /// <value>The height of the user interface.</value>
     public int UIHeight
     {
         set
@@ -46,6 +58,9 @@ public class GUIManager : MonoBehaviour
 	#endregion
 	
 	#region Loop
+    /// <summary>
+    /// Update this instance.
+    /// </summary>
 	void Update()
 	{
         if (_loadGUI)
@@ -97,11 +112,17 @@ public class GUIManager : MonoBehaviour
 
 	public void ShowGameOverPanel()
 	{
-		startPanel.SetActive(false);
-		inGamePanel.SetActive(false);
-		gameOverPanel.SetActive(true);
-        gamePausedPanel.SetActive(false);
+        StartCoroutine(_ShowGameOverPanel());
 	}
+
+    IEnumerator _ShowGameOverPanel()
+    {
+        yield return new WaitForEndOfFrame();
+        startPanel.SetActive(false);
+        inGamePanel.SetActive(false);
+        gameOverPanel.SetActive(true);
+        gamePausedPanel.SetActive(false);
+    }
 
     public void ShowGamePausedPanel()
     {
@@ -137,6 +158,42 @@ public class GUIManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         powerUpLabel.text = "";
     }
+
+    /// <summary>
+    /// Creates the high score items.
+    /// </summary>
+    void CreateHighScoreItems()
+    {
+        foreach( string n in FacebookManager.facebookInstance.friendsHighScore.Keys)
+        {
+            GameObject go = Instantiate(scoreItemPrefab, leaderboardPanel.transform.position, Quaternion.identity) as GameObject;
+            go.GetComponent<ScoreItem>().SetScore(n, FacebookManager.facebookInstance.friendsHighScore[n]);
+            go.transform.parent = leaderboardPanel.transform;
+        }
+    }
+    /// <summary>
+    /// Shows the leaderboard panel.
+    /// </summary>
+    public void ShowLeaderboardPanel()
+    {
+        leaderboardPanel.SetActive(true);
+        CreateHighScoreItems();
+    }
+    /// <summary>
+    /// Hides the leaderboard panel.
+    /// </summary>
+    public void HideLeaderboardPanel()
+    {
+        int count = leaderboardPanel.transform.childCount;
+
+        for (int i = 0; i < count; i++)
+        {
+            Destroy(leaderboardPanel.transform.GetChild(i).gameObject);
+        }
+
+        leaderboardPanel.SetActive(false);
+    }
+
 
 	#endregion
 }

@@ -10,7 +10,9 @@ public class ButtonControl : MonoBehaviour
         Credits,
         Pause,
         Resume,
-		Share
+		Share,
+        GoHome,
+        Leaderboard
     }
 
     public ButtonType type;
@@ -38,6 +40,12 @@ public class ButtonControl : MonoBehaviour
 				FacebookManager.facebookInstance.PostOnFacebook();
 				type = ButtonType.Share;
 				break;
+            case ButtonType.GoHome:
+                GUIManager.guiInstance.ShowStartPanel();
+                break;
+            case ButtonType.Leaderboard:
+                GUIManager.guiInstance.ShowLeaderboardPanel();
+                break;
         }
     }
 
